@@ -1,1 +1,1 @@
-# goal-bruins
+# Goal Bruins
