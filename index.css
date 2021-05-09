@@ -1,0 +1,164 @@
+.addTaskPanel{
+  background-color: yellowgreen;
+  
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.background{
+  transform: scale(1);
+  float: left;
+}
+.Header{
+  color: white;
+  text-emphasis:initial;
+  text-align: center;
+  position:absolute;
+  top: -40px;
+  bottom: 800px;
+  right: 0px;
+  left: 0px;
+  font-size: 50px;
+  text-shadow: 3px 3px grey;
+  background-image: url(https://conferences.ucla.edu/wp-content/uploads/2021/01/uclalogo.png);
+  border-style: ridge;
+  border-color: yellow;
+}
+
+.bigTit{
+  font-size: 40px;
+  position: absolute;
+  left: 110px;
+  top: -15px;
+}
+.cont{
+  display: inline-block;
+  width: 400px;
+  height: 750px;
+  background: rgba(6, 120, 196, 0.911);
+  border: rgb(255, 251, 0);
+  border-radius: 20px;
+  border-style:ridge;
+  align-items: center;
+  align-self: center;
+  position:absolute;
+  left: 200px;
+  bottom: 50px;
+}
+
+.cont2{
+  display: inline-block;
+  background:rgba(240, 146, 5, 0.432);
+  border: orangered;
+  border-radius: 20px;
+  border-style:ridge;
+  width: 400px;
+  height: 750px;
+  position: absolute;
+  left: 700px;
+  bottom: 50px;
+}
+
+
+
+.title{
+  font-size: 20px;
+  text-align: center;
+  position: relative;
+  font-style: oblique;
+}
+
+.task{
+  font-weight: bold;
+  display: inline-block;
+  border-radius: 10px;
+  border-style:ridge;
+  border-color: green;
+  width: 300px;
+  height: 50px;
+  background: rgb(255, 99, 9);
+  font-size: small;
+  text-align:center;
+}
+
+.add{
+  font:bold;
+  border-style: ridge;
+  border-radius: 10px;
+  border-color:green;
+  transform: scale(2);
+  position: absolute;
+  left: 50px;
+  bottom:750px;
+}
+
+.input{
+  position: absolute;
+  left: 10px;
+  top: 180px;
+  bottom:700px;
+  
+}
+
+.input2{
+  position: absolute;
+
+  left: 10px;
+  top:215px;
+  bottom:665px;
+}
+
+.input3{
+  position: absolute;
+  
+  left: 50px;
+  top:30px;
+  height: 20px;
+  left: 500px;
+  transform: scale(1.2);
+}
+
+.taskItem{
+  text-align: left;
+  text-shadow: 1px 1px grey;
+  position: relative;
+  color:black;
+  left: 10px;
+  top: -10px;
+  font-size: 14px;
+}
+.taskItem2{
+  text-align: left;
+  position: relative;
+  left: 10px;
+  top:  -20px;
+  font-size: 14px;
+}
+
+.logo{
+  transform: scale(0.16);
+  position: absolute;
+  left: -150px;
+  top: -150px;
+}
+
+.link{
+  position: absolute;
+  transform: scale(0.3);
+  left: 1000px;
+  top: -57px;
+
+}
