@@ -1,20 +1,19 @@
 import React from 'react';
 import './App.css';
 
-import Nav from './components/Nav/Nav'
-import Goal from './components/Goal/Goal'
+import Nav from './components/Nav/Nav';
+import Goal from './components/Goal/Goal';
 
 function App(props) {
   return (
-  <>
-    <div class="Discover">
-      <Nav />
-    </div>
-    <div class="goals">
-      <Goal/>
-    </div>
-    
-  </>
+    <>
+      <div className="App">
+        <Nav />
+        <div className="goals">
+          <Goal/>
+        </div>
+      </div>
+    </>
   );
 }
 
