@@ -1,0 +1,26 @@
+.single-goal{
+    max-width: 600px;
+    
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title{
+    font-family: 'Segoe UI',sans-serif;
+}
+
+.interactive-elements{
+    display: flex;
+    width: 30px;
+    padding: 4px;
+}
+
+.single-goal > button{
+    height: 30px; 
+    width: 30px;
+    border:1px solid black;
+    display:table-cell;
+    vertical-align: middle;
+}
