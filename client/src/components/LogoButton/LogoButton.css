@@ -1,0 +1,9 @@
+.logo {
+    max-width: 48px;
+    max-height: 48px;
+}
+
+.logo-text {
+    font-weight: bold;
+    margin-left: 10px;
+}

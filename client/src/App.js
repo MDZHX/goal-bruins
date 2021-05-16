@@ -1,9 +1,12 @@
-
+import React from 'react';
 import './App.css';
 
-function App() {
+import Nav from './components/Nav/Nav'
+
+function App(props) {
   return (
-    <div className="App">
+    <div class="Discover">
+      <Nav />
     </div>
   );
 }

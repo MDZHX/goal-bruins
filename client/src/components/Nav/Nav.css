@@ -1,0 +1,35 @@
+.app-header {
+  height: 100px;
+}
+
+.app-header-container {
+  display: flex;
+  justify-content: space-between;
+
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.app-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 500px;
+}
+
+.app-header-nav .button-group {
+    display: flex;
+}
+
+.app-header-nav .button-group button {
+    padding: 20px;
+}
+
+.app-header-icon-group {
+    display: flex;
+}
+
+.app-header-icon-group button {
+    padding: 10px;
+}
