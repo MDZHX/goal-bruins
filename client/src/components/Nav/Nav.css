@@ -1,5 +1,8 @@
 .app-header {
-  height: 100px;
+  height: 55px;
+
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 
 .app-header-container {
@@ -7,7 +10,14 @@
   justify-content: space-between;
 
   max-width: 1000px;
+  height: 100%;
   margin: 0 auto;
+}
+
+.app-header-logo {
+  display: flex;
+  justify-self: center;
+  align-items: center;
 }
 
 .app-header-nav {
@@ -19,17 +29,22 @@
 }
 
 .app-header-nav .button-group {
-    display: flex;
+  display: flex;
+
+  padding: 0;
+  margin: 0;
+  
+  list-style-type: none;
 }
 
 .app-header-nav .button-group button {
-    padding: 20px;
+  margin: 0 20px;
 }
 
 .app-header-icon-group {
-    display: flex;
+  display: flex;
 }
 
 .app-header-icon-group button {
-    padding: 10px;
+  padding: 10px;
 }

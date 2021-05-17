@@ -12,13 +12,18 @@ function Nav(props) {
     <header className="app-header">
       <div className="app-header-container">
         <div className="app-header-logo">
+          {/* TODO: Change logo source */}
           <LogoButton logo={"./logo192.png"} alt={"logo"} text={"Goal Bruins"} />
         </div>
         <nav className="app-header-nav">
-          <div className="button-group">
-            <Button>My Goals</Button>
-            <Button>Discover</Button>
-          </div>
+          <ul className="button-group">
+            <li>
+              <Button>My Goals</Button>
+            </li>
+            <li>
+              <Button>Discover</Button>
+            </li>
+          </ul>
 
           <div className="search-bar">
             <Search />
