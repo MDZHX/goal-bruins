@@ -24,3 +24,12 @@
     display:table-cell;
     vertical-align: middle;
 }
+
+.btn-primary {
+    background-color: #23aa4e;
+    border-color: #177d37;
+  }
+  
+#example {
+    margin: 3rem;
+  }
