@@ -8,22 +8,16 @@
 .app-header-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   max-width: 1000px;
   height: 100%;
   margin: 0 auto;
 }
 
-.app-header-logo {
-  display: flex;
-  justify-self: center;
-  align-items: center;
-}
-
 .app-header-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 
   width: 500px;
 }
@@ -43,8 +37,13 @@
 
 .app-header-icon-group {
   display: flex;
+
+  padding: 0;
+  margin: 0;
+  
+  list-style-type: none;
 }
 
 .app-header-icon-group button {
-  padding: 10px;
+  margin: 0 10px;
 }

@@ -29,11 +29,17 @@ function Nav(props) {
             <Search />
           </div>
         </nav>
-        <div className="app-header-icon-group">
+        <ul className="app-header-icon-group">
+          <li>
             <IconButton icon={"fas fa-bookmark"} />
+          </li>
+          <li>
             <IconButton icon={"fas fa-bell"} />
+          </li>
+          <li>
             <IconButton icon={"fas fa-user-circle"} />
-        </div>
+          </li>
+        </ul>
       </div>
     </header>
   );
