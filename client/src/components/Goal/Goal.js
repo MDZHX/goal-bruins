@@ -8,6 +8,7 @@ function LikeButton(props) {
   const [liked, setLiked] = useState(false);
   // TODO: Fix icon issue
   const icon = liked ? "fas fa-heart" : "far fa-heart";
+  
   const handleClick = () => {
     setLiked(!liked);
     props.onClick(liked);
