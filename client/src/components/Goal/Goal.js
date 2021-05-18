@@ -50,8 +50,9 @@ function Goal(props) {
   return (
     <div className="goal-card">
       <div className="goal-card-info">
-        <div className="goal-card-title">
+        <div className="goal-card-text">
           <h3>{props.name}</h3>
+          <p>{props.desc}</p>
         </div>
         <ul className="goal-card-button-group">
           <li>
