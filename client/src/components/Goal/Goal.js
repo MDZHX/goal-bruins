@@ -1,61 +1,69 @@
-import React from 'react';
-import{useState} from 'react'
-import "./Goal.css"
+import React, { useState } from 'react';
 
-class LikeButton extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        liked: false
-      };
-      this.handleClick = this.handleClick.bind(this);
-    } 
-    
-    handleClick() {
-      this.setState({
-        liked: !this.state.liked
-      });
-    }
-    
-    render() {
-      const label = this.state.liked ? 'Unlike' : 'Like'
-      return (
-        <div className="customContainer">
-          <button className="btn btn-primary" onClick={this.handleClick}>
-            {label}</button>
-        </div>
-      );
-    }
+import Button from '../Button/Button';
+
+import "./Goal.css";
+
+function LikeButton(props) {
+  const [liked, setLiked] = useState(false);
+  // TODO: Fix icon issue
+  const icon = liked ? "fas fa-heart" : "far fa-heart";
+
+  const handleClick = () => {
+    setLiked(!liked);
+    props.onClick(liked);
   }
 
+  return (
+    <Button onClick={handleClick}>
+      <div className="like-button-container">
+        <i className={icon}></i>
+        <span className="like-button-text">{props.likes}</span>
+      </div>
+    </Button>
+  );
+}
 
-function Goal(props){
-    return <div className="single-goal">
-        <div>
-            <div>
-                <h3>{props.title}this is title</h3>
-            </div>
+function SubscribeButton(props) {
+  const [subscribed, setSubscribed] = useState(false);
+  // TODO: Fix icon issue
+  const icon = subscribed ? "fas fa-plus-square" : "far fa-plus-square";
+  const text = subscribed ? "Remove from My Goals" : "Add to My Goals";
 
-            <ul className="interactive-elements">
+  return (
+    <Button onClick={() => {setSubscribed(!subscribed)}}>
+      <div className="subscribe-button-container">
+        <i className={icon}></i>
+        <span className="subscribe-button-text">{text}</span>
+      </div>
+    </Button>
+  );
+}
 
-                <div className="likes">
-                    {/* {props.likesCount+" "} */}
-                    100
-                </div>
+function Goal(props) {
+  const [likes, setLikes] = useState(0);
 
-                <LikeButton />
+  const likeClicked = (liked) => {
+    setLikes(liked ? likes - 1 : likes + 1);
+  }
 
-                <a href="https://www.youtube.com/">
-                    Comments
-                    {/* todo: need to add return in the jump page */}
-                </a>
-            </ul>
+  return (
+    <div className="goal-card">
+      <div className="goal-card-info">
+        <div className="goal-card-title">
+          <h3>{props.name}</h3>
         </div>
-        <button>
-            +
-        </button>
-
+        <ul className="goal-card-button-group">
+          <li>
+            <LikeButton likes={likes} onClick={likeClicked} />
+          </li>
+        </ul>
+      </div>
+      <div className="goal-card-subscribe">
+        <SubscribeButton />
+      </div>
     </div>
-};
+  );
+}
 
 export default Goal

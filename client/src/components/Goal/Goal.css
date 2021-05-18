@@ -1,35 +1,39 @@
-.single-goal{
-    max-width: 600px;
+.subscribe-button-container {
+  padding: 10px;
+  border-radius: 5px;
+
+  font-weight: bold;
+  color: #fff;
+  background-color: #3374e3;
+  box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+}
+
+.subscribe-button-text {
+  margin-left: 10px;
+}
+
+.goal-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 600px;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 10px;
     
-    border: 1px solid black;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
 }
 
-.title{
-    font-family: 'Segoe UI',sans-serif;
+.goal-card-info {
+  width: 400px;
 }
 
-.interactive-elements{
-    display: flex;
-    width: 30px;
-    padding: 4px;
+.goal-card-button-group {
+  display: flex;
+  width: 30px;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
-
-.single-goal > button{
-    height: 30px; 
-    width: 30px;
-    border:1px solid black;
-    display:table-cell;
-    vertical-align: middle;
-}
-
-.btn-primary {
-    background-color: #23aa4e;
-    border-color: #177d37;
-  }
-  
-#example {
-    margin: 3rem;
-  }

@@ -10,7 +10,7 @@ function App(props) {
       <div className="App">
         <Nav />
         <div className="goals">
-          <Goal/>
+          {[...Array(20)].map(() => <Goal name={"Learn React"} />)}
         </div>
       </div>
     </>
