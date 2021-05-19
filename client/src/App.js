@@ -4,6 +4,7 @@ import './App.css';
 import Nav from './components/Nav/Nav';
 import Goal from './components/Goal/Goal';
 import Login from './components/Login/Login'
+import Signup from './components/Login/Signup'
 const data = [
   {
     "id": 1,
@@ -57,13 +58,14 @@ function App() {
 
   return (
     <>
-      {/* <div className="App">
+      <div className="App">
         <Nav />
         <div className="goals">
           {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
         </div>
-      </div> */}
-      <Login/>
+      </div>
+      {/* <Login/> */}
+      {/* <Signup/> */}
     </>
   );
 }
