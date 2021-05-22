@@ -3,70 +3,56 @@ import './App.css';
 
 import Nav from './components/Nav/Nav';
 import Goal from './components/Goal/Goal';
-import Login from './components/Login/Login'
-import Signup from './components/Login/Signup'
-const data = [
-  {
-    "id": 1,
-    "name": "Learn React",
-    "desc": "React is fun",
-  },
-  {
-    "id": 2,
-    "name": "Learn Node",
-    "desc": "Node is fun",
-  },
-  {
-    "id": 3,
-    "name": "Learn Express",
-    "desc": "Express is fun",
-  },
-  {
-    "id": 4,
-    "name": "Learn MongoDB",
-    "desc": "MongoDB is fun",
-  },
-  {
-    "id": 5,
-    "name": "Learn HTML",
-    "desc": "HTML is fun",
-  },
-  {
-    "id": 6,
-    "name": "Learn CSS",
-    "desc": "CSS is fun",
-  },
-  {
-    "id": 7,
-    "name": "Learn HTTP",
-    "desc": "HTTP is fun",
-  },
-  {
-    "id": 8,
-    "name": "Learn async",
-    "desc": "Async is fun",
-  },
-  {
-    "id": 9,
-    "name": "Learn FP",
-    "desc": "FP is fun",
-  },
-]
+import Login from './components/Login/Login';
+import Signup from './components/Login/Signup';
+import Main from './components/Main/Main';
+//import MyGoals from './MyGoals/MyGoals';
+//import Discover from './Discover/Discover';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+
+
+
+
+
 
 function App() {
-  const [goals, setGoals] = useState(data);
-
+  
+  
   return (
-    <>
-      <div className="App">
-        <Nav />
-        <div className="goals">
-          {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
+    // <>
+    //   <div className="App">
+    //     <Nav />
+    //     <div className="goals">
+    //       {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
+    //     </div>
+    //   </div>
+    //   {/* <Login/> */}
+    //   {/* <Signup/> */}
+
+    // </>
+    <Router>
+        <div className="App">
+
+        <switch>
+            <Nav>
+              <Route path ="/" exact component={Main}/> 
+            </Nav>
+              <Route path ="/signup" component={Signup}/> 
+              <Route path ="/login" component={Login}/> 
+              {/* 
+                  <todo: this is placeholders for mygoals and discover page>
+
+              <Route path="/mygoals" component={mygoals}/>
+              */}
+            
+          </switch>
+
+
+
+
         </div>
-      </div>
-      {/* <Login/> */}
-      {/* <Signup/> */}
-    </>
+    </Router>
   );
 }
 
