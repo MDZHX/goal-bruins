@@ -4,7 +4,7 @@ import Button from '../Button/Button';
 import LogoButton from '../LogoButton/LogoButton';
 import IconButton from '../IconButton/IconButton';
 import Search from '../Search/Search';
-
+import {Link} from 'react-router-dom'
 import './Nav.css';
 
 function Nav(props) {
@@ -13,13 +13,18 @@ function Nav(props) {
       <div className="app-header-container">
         <div className="app-header-logo">
           {/* TODO: Change logo source */}
+          <Link to="/" style={{ textDecoration: 'none' }}>
           <LogoButton logo={"./logo192.png"} alt={"logo"} text={"Goal Bruins"} />
+          </Link>
         </div>
         <nav className="app-header-nav">
           <ul className="button-group">
-            <li>
-              <Button>My Goals</Button>
-            </li>
+            <Link to="/mygoal" style={{ textDecoration: 'none' }}>
+               <li>
+                 <Button>My Goals</Button>
+               </li>
+            </Link>
+            
             <li>
               <Button>Discover</Button>
             </li>

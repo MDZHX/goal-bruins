@@ -1,0 +1,75 @@
+.my-goal-option-bar{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+  
+    width: 600px;
+    height: 20px;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+      
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 3px 3px rgb(18 18 18 / 10%);
+}
+
+.button{
+    font-size: large;
+    display: inline-block;
+    margin-left: 30px;
+    border: none;
+    border-radius: 2px;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+.sorting-options{
+    border: none;
+    font-size: medium;
+}
+
+.add-goal-container{
+     
+    display: flex;
+    justify-content:center;
+    align-items: center;
+  
+    width: 200px;
+    height: 20px;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+      
+    color: white;
+    background-color:#3374e3;
+    box-shadow: 0 3px 3px rgb(18 18 18 / 10%);
+    
+}
+
+.add-goal-div{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.add-goal-text{
+    margin-left: 10px;
+}
+
+.save-button{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+  
+    width: auto;
+    height: 20px;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+      
+    color: white;
+    background-color:#3374e3;
+    box-shadow: 0 3px 3px rgb(18 18 18 / 10%);
+
+}
