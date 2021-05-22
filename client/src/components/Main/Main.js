@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Goal from '../Goal/Goal';
+import Nav from '../Nav/Nav';
 
 const data = [
     {
@@ -52,9 +53,13 @@ const data = [
 function Main(){
     const [goals, setGoals] = useState(data);
     return(
-        <div className="goals">
-            {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
-        </div>
+        <>  
+            <Nav/>
+            <div className="goals">
+                {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
+            </div>
+        </>
+        
     )
 }
 

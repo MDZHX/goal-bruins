@@ -35,22 +35,16 @@ function App() {
         <div className="App">
 
         <switch>
-            <Nav>
-              <Route path ="/" exact component={Main}/> 
-            </Nav>
+              <Route path ="/"  exact component={Main}/> 
               <Route path ="/signup" component={Signup}/> 
               <Route path ="/login" component={Login}/> 
               {/* 
-                  <todo: this is placeholders for mygoals and discover page>
+                  <todo: this is placeholders for mygoals page>
 
               <Route path="/mygoals" component={mygoals}/>
               */}
             
           </switch>
-
-
-
-
         </div>
     </Router>
   );
