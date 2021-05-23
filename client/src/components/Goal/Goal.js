@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../Button/Button';
-
+import {FaTimes} from 'react-icons/fa';
 import "./Goal.css";
 
 function LikeButton(props) {
@@ -40,12 +40,15 @@ function SubscribeButton(props) {
   );
 }
 
-function Goal(props) {
+
+
+function Goal(props, onDelete) {
   const [likes, setLikes] = useState(0);
 
   const likeClicked = (liked) => {
     setLikes(liked ? likes - 1 : likes + 1);
   }
+
 
   return (
     <div className="goal-card">
@@ -63,6 +66,9 @@ function Goal(props) {
       <div className="goal-card-subscribe">
         <SubscribeButton />
       </div>
+
+      <FaTimes style={{color:'red', cursor:'pointer'}}/>
+      {/* Todo: need to add onClick Method to delete goals */}
     </div>
   );
 }

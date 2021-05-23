@@ -19,7 +19,7 @@ export default function Signup(){
       return (
         
         <form onSubmit={handleSubmit(onSubmit)} className="user-form">
-          <h1>Login</h1>
+          <h1>Signup</h1>
           
           <span>Name: </span>
           <input {...register("name", { required: true }) } placeholder="Your Name"/>

@@ -3,12 +3,13 @@ import './App.css';
 
 import Nav from './components/Nav/Nav';
 import Goal from './components/Goal/Goal';
-import Login from './components/Login/Login'
-import Signup from './components/Login/Signup'
+import Login from './components/Login/Login';
+import Signup from './components/Login/Signup';
+import Main from './components/Main/Main';
+//import Discover from './Discover/Discover';
 import MyGoal from './components/MyGoal/MyGoal.js'
 import MyGoalOptionBar from './components/MyGoal/MyGoalOptionBar.js'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import Button from './components/Button/Button';
 const data = [
   {
     "id": 1,
@@ -96,79 +97,77 @@ const myData=[
   }
 ]
 
-
-
 function App() {
-  const [goals,setGoals]=useState(data);
-  const [personalGoals, setPersonalGoals]=useState(myData);
-  const [displayOption,setDisplayOption]=useState([false,false]);//first option: archieved, second: today
-  
+const [goals,setGoals]=useState(data);
+const [personalGoals, setPersonalGoals]=useState(myData);
+const [displayOption,setDisplayOption]=useState([false,false]);//first option: archieved, second: today
 
- //op:0 to set Goals, 1 to set display option (archived?Today?All?)
- function setPersonalGoal(op,newVal){ 
-    if(op===0)
-      setPersonalGoals(newVal);
-    else
-      setDisplayOption(newVal);
- }
 
- const personalGoalList = personalGoals.map((goal)=>{
-                                            if(!displayOption[0]&&goal["archived"]===false)
-                                            return (<MyGoal 
+//op:0 to set Goals, 1 to set display option (archived?Today?All?)
+function setPersonalGoal(op,newVal){ 
+  if(op===0)
+    setPersonalGoals(newVal);
+  else
+    setDisplayOption(newVal);
+}
+
+const personalGoalList = personalGoals.map((goal)=>{
+                                          if(!displayOption[0]&&goal["archived"]===false)
+                                          return (<MyGoal 
+                                          id={goal.id}
+                                          name={goal.name} 
+                                          desc={goal.desc} 
+                                          onChange={setPersonalGoal}
+                                          data = {personalGoals}>
+                                           </MyGoal>);
+
+                                          else if(displayOption[0]&&goal["archived"]) 
+                                          return (<MyGoal 
                                             id={goal.id}
                                             name={goal.name} 
                                             desc={goal.desc} 
                                             onChange={setPersonalGoal}
                                             data = {personalGoals}>
                                              </MyGoal>);
-
-                                            else if(displayOption[0]&&goal["archived"]) 
-                                            return (<MyGoal 
-                                              id={goal.id}
-                                              name={goal.name} 
-                                              desc={goal.desc} 
-                                              onChange={setPersonalGoal}
-                                              data = {personalGoals}>
-                                               </MyGoal>);
-                                            });
-
-//This is the component for the main page
-const goalPage =()=>{return(
-  <>
-    <div className="App">
-      <div className="goals">
-        {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
-      </div>
-    </div>
-    {/* <Login/> */}
-    {/* <Signup/> */}
-  </>
-);};
-
+                                          });
 
 //This is the component for My Goal page
 const myGoalPage=()=>{
-      return (
-      <>
-        <MyGoalOptionBar data={personalGoals} onChange={setPersonalGoal}></MyGoalOptionBar>
-        <div>
-          {personalGoalList}
-        </div>
-      </>
-      );};
-
-
-                         
   return (
-    <>
-      <Router> 
-        <Nav></Nav>
-        <Switch>
-        <Route path="/mygoal" component={myGoalPage}></Route>
-        <Route path="/" component={goalPage}></Route>
-        </Switch>
-       </Router> 
-    </>
+  <>
+    <Nav></Nav>
+    <MyGoalOptionBar data={personalGoals} onChange={setPersonalGoal}></MyGoalOptionBar>
+    <div>
+      {personalGoalList}
+    </div>
+  </>
+  );};
+  
+  return (
+    // <>
+    //   <div className="App">
+    //     <Nav />
+    //     <div className="goals">
+    //       {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
+    //     </div>
+    //   </div>
+    //   {/* <Login/> */}
+    //   {/* <Signup/> */}
+
+    // </>
+    <Router>
+        <div className="App">
+
+        <switch>
+              <Route path ="/"  exact component={Main}/> 
+              <Route path ="/all-goals"  exact component={Main}/> 
+              <Route path ="/signup" component={Signup}/> 
+              <Route path ="/login" component={Login}/> 
+              <Route path="/mygoals" component={myGoalPage}/>
+            
+          </switch>
+        </div>
+    </Router>
   );
 }
 
