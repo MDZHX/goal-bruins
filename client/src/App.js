@@ -36,6 +36,7 @@ function App() {
 
         <switch>
               <Route path ="/"  exact component={Main}/> 
+              <Route path ="/all-goals"  exact component={Main}/> 
               <Route path ="/signup" component={Signup}/> 
               <Route path ="/login" component={Login}/> 
               {/* 

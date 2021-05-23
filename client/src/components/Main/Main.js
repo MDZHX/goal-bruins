@@ -50,16 +50,24 @@ const data = [
     },
   ]
 
+
+
 function Main(){
     const [goals, setGoals] = useState(data);
+
+    //Todo: deleteGoal Method is complemeted, need to add this function to onClick
+    const deleteGoal = (id)=>{
+        setGoals(goals.filter((goal)=>goal.id !==id))
+    }
+
     return(
-        <>  
+        <>
             <Nav/>
             <div className="goals">
-                {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} />)}
+                {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} onDelete={deleteGoal}/>)}
             </div>
         </>
-        
+
     )
 }
 
