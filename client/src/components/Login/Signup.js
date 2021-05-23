@@ -30,7 +30,7 @@ export default function Signup(){
           {errors.email && <span className="error-message">This field is required</span>}
 
           <span>Password: </span>
-          <input {...register("password", { required: true }) } placeholder="Your Password"/>
+          <input {...register("password", { required: true }) } placeholder="Password"/>
           {errors.password && <span className="error-message">This field is required</span>}
 
           <input type="submit" className="button"/>
