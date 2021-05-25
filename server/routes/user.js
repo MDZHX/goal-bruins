@@ -22,6 +22,7 @@ router.post('/new-user', (req,res,next)=>{
         password: req.body.password,
         goals_created: [],
         goals_followed: [],
+        goals_liked: [],
     });
     user
         .save()
@@ -59,6 +60,93 @@ router.patch("/follow-goal",(req,res,next) =>{
         )
         .exec()
         .then((doc) => {
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
+router.patch("/like-goal", async (req,res,next) =>{
+    /*
+    required body elements:
+        userId
+        goalId
+    procedure:
+        add a goal to a user's goals_liked array, also increment the likes field in goal by 1
+    */
+    // const {userId, goalId} = req.body;
+    User.update(
+            {_id: req.body.userId },
+            {$push: {goals_liked : req.body.goalId}}
+        )
+        .exec()
+        .then((doc) => {
+            console.log(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+
+    await Goal.findById(req.body.goalId)
+        .exec()
+        .then((doc) => {
+            cur_likes = doc.likes
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    
+    Goal.update({_id:goalId}, {$set:{likes:cur_likes+1}})
+        .exec()
+        .then((doc) => {
+            console.log(doc);
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
+
+
+
+router.patch("/unlike-goal", async (req,res,next) =>{
+    /*
+    required body elements:
+        userId
+        goalId
+    procedure:
+        add a goal to a user's goals_liked array, also increment the likes field in goal by 1
+    */
+    // const {userId, goalId} = req.body;
+    User.update(
+            {_id: req.body.userId },
+            {$push: {goals_liked : req.body.goalId}}
+        )
+        .exec()
+        .then((doc) => {
+            console.log(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+
+    await Goal.findById(req.body.goalId)
+        .exec()
+        .then((doc) => {
+            cur_likes = doc.likes
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    
+    Goal.update({_id:goalId}, {$set:{likes:cur_likes+1}})
+        .exec()
+        .then((doc) => {
+            console.log(doc);
             res.send(doc)
         })
         .catch((err) => {

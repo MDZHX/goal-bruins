@@ -24,6 +24,12 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref:'goal',
         required: true
+    }],
+
+    goals_liked:[{
+        type: Schema.Types.ObjectId, 
+        ref:'goal',
+        required: true
     }]
 
 }, { timestamps: true });
