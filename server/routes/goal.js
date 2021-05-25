@@ -42,7 +42,7 @@ module.exports = router;
 
 
 
-router.get('/single-goal', async (req,res) => {
+router.post('/single-goal', async (req,res) => {
     const {name} = req.body;
 
     await Goal.findOne({ name : `${name}` }, (err, goal_back) =>{
@@ -50,7 +50,7 @@ router.get('/single-goal', async (req,res) => {
             console.log(err);
             return res.json({ status: 'error', error: 'Invalid username' })
         }
-
+        
         console.log(goal_back)
         return res.json(goal_back);
     })
