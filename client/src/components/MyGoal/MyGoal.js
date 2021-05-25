@@ -112,6 +112,7 @@ function MyGoal(props){
        
        return(
         <div className="mgc">
+            
             <div className="goal-card-info">
                 <h3>{props.name}</h3>
                 <p>{props.desc}</p>

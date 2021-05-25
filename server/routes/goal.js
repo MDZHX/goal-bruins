@@ -11,7 +11,8 @@ router.use(express.json())
 
 // sandbox methods
 
-router.get('/add-goal', (req, res) =>{
+router.post('/add-goal', (req, res) =>{
+    const {name, description} = req.body;
     const goal = new Goal({
         name: 'bryan exercise',
         description: 'bryan go exercise',
@@ -45,14 +46,18 @@ router.get('/all-goals',(req, res) => {
 
 
 
-router.get('/single-goal',(req,res) => {
-    Goal.findById('60a4bf7bddaa19e13efffdd7')       //this is just an example, replace this with variable id
-        .then((result) => {
-            res.send(result)
-        })
-        .catch((err) => {
+router.post('/single-goal', async (req,res) => {
+    const {name} = req.body;
+
+    await Goal.findOne({ name : `${name}` }, (err, goal_back) =>{
+        if (err){
             console.log(err);
-        });
+            return res.json({ status: 'error', error: 'Invalid username' })
+        }
+        
+        console.log(goal_back)
+        return res.json(goal_back);
+    })
 })
 
 

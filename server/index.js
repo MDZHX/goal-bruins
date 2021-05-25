@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const connection = require('./models/connect.js')
 const goal_router = require('./routes/goal.js')
 const user_router = require('./routes/user.js')
 
 //All request start with "/goal" will be handled by goal_router
+app.use(cors());
 app.use('/goal', goal_router)
 app.use('/user', user_router)
 

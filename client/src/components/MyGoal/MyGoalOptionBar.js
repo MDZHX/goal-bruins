@@ -1,7 +1,13 @@
 import './MyGoalOptionBar.css'
 //import Button from '../Button/Button';
 import {useState} from 'react';
+import axios from 'axios';
 
+function getGoal(){
+    axios
+    .post('http://localhost:5000/goal/single-goal', {name:"study"}, {headers:{"content-type": "application/json"}})
+    .then((res)=>console.log(res.data));
+}
 
 
 function Button(props) {
@@ -101,6 +107,9 @@ function MyGoalOptionBar(props){
     <>
       <div className="my-goal-option-bar">
           <div>
+            <button onClick={getGoal}>
+                dummy
+            </button>
               <Button onClick={showAll}>All</Button>
               <Button>Today</Button>
               <Button onClick={showArchived}>Archived</Button>
