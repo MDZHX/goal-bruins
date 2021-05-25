@@ -5,13 +5,14 @@ const Goal = require('../models/goal');
 const { route } = require('./user.js');
 
 
-
+router.use(express.json());
 //sandbox methods
 
-router.get('/add-goal', (req, res) =>{
+router.post('/add-goal', (req, res) =>{
+    const {name, description} = req.body;
     const goal = new Goal({
-        name: 'study',
-        description: 'go study'
+        name: `${name}`,
+        description: `${description}`
     })
 
     goal.save()
