@@ -13,6 +13,27 @@ app.get('/', (req, res) => {
 })
 
 
+
+app.use((req,res,next)=>{
+    const error = new Error('Not found');
+    error.status = 404;
+    next(error);
+})
+
+
+app.use((error, req, res, next)=>{
+    res.status(error.status || 500);
+    res.json({
+        error: {
+            message: error.message
+        }
+    });
+});
+
+
+
+
+
 app.listen(5000, () => {
     console.log('server is listening on port 5000....')
 })
