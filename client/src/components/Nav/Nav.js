@@ -19,7 +19,7 @@ function Nav(props) {
         </div>
         <nav className="app-header-nav">
           <ul className="button-group">
-            <Link to="/mygoal" style={{ textDecoration: 'none' }}>
+            <Link to="/mygoals" style={{ textDecoration: 'none' }}>
                <li>
                  <Button>My Goals</Button>
                </li>
