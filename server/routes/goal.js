@@ -42,14 +42,17 @@ module.exports = router;
 
 
 
-router.get('/single-goal',(req,res) => {
-    Goal.findById('60a4bf7bddaa19e13efffdd7')       //this is just an example, replace this with variable id
-        .then((result) => {
-            res.send(result)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+router.get('/single-goal', async (req,res) => {
+    const {name} = req.body;
+
+    await Goal.findOne({ name : `${name}` }, (err, goal_back) =>{
+        if (err){
+            return res.json({ status: 'error', error: 'Invalid username' })
+        }
+
+        
+        return res.json(goal_back);
+    })
 })
 
 
