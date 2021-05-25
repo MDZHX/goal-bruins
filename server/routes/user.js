@@ -123,20 +123,59 @@ router.get('/show-followed', async (req,res,next)=>{
     procedure:
         add a goal to the goal collection, also add it to the user's goals_created array
     */
-    follow_array = [];
+    followed_array = [];
     result_array = [];
 
     await User.findById(req.body.userId)
         .exec()
         .then(doc =>{
-            follow_array = doc.goals_followed;
+            followed_array = doc.goals_followed;
         })
         .catch(err => {
             console.log(err);
         })
     
-    for (var i = 0; i < follow_array.length; i++) {
-        var current_goal_id = follow_array[i];
+    for (var i = 0; i < followed_array.length; i++) {
+        var current_goal_id = followed_array[i];
+        await Goal.findById(current_goal_id)
+            .exec()
+            .then((doc) => {
+                result_array.push(doc);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    console.log(result_array);
+    res.send(result_array);
+});
+
+
+
+
+
+router.get('/show-created', async (req,res,next)=>{
+    /*
+    required body elements:
+        userId
+    procedure:
+        add a goal to the goal collection, also add it to the user's goals_created array
+    */
+    created_array = [];
+    result_array = [];
+
+    await User.findById(req.body.userId)
+        .exec()
+        .then(doc =>{
+            created_array = doc.goals_created;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    for (var i = 0; i < created_array.length; i++) {
+        var current_goal_id = created_array[i];
         await Goal.findById(current_goal_id)
             .exec()
             .then((doc) => {
