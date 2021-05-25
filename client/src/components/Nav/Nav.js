@@ -7,6 +7,9 @@ import Search from '../Search/Search';
 import {Link} from 'react-router-dom'
 import './Nav.css';
 
+
+
+
 function Nav(props) {
   return (
     <header className="app-header">
@@ -28,6 +31,7 @@ function Nav(props) {
             <li>
               <Button>Discover</Button>
             </li>
+
           </ul>
 
           <div className="search-bar">

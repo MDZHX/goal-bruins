@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Goal from '../Goal/Goal';
 import Nav from '../Nav/Nav';
+import axios from 'axios';
 
 const data = [
     {
@@ -50,7 +51,10 @@ const data = [
     },
   ]
 
-
+function dummy(){
+  axios.get('http://localhost:5000/')
+  .then(Response=>console.log(Response));
+}
 
 function Main(){
     const [goals, setGoals] = useState(data);
@@ -66,6 +70,9 @@ function Main(){
             <div className="goals">
                 {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} onDelete={deleteGoal}/>)}
             </div>
+            <button onClick={dummy}>
+              dummy
+            </button>
         </>
 
     )
