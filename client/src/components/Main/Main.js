@@ -4,7 +4,7 @@ import Nav from '../Nav/Nav';
 import axios from 'axios';
 import Button from '../Button/Button'
 import './Main.css'
-import { use } from '../../../../server/routes/user';
+//import { use } from '../../../../server/routes/user';
 
 const data = [
     {
