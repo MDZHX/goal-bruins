@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button'
 
 import './Discover.css'
 
-function Discover(){
+function Discover() {
   const [goals, setGoals] = useState([]);
   const [itemRendered, setItemRendered] = useState(10);
 
@@ -43,9 +43,14 @@ function Discover(){
     setItemRendered(itemRendered+4);
   }
 
-  const goalList = goals
-  .slice(0, itemRendered)
-  .map(goal => <Goal key={goal.id} name={goal.name} desc={goal.desc}/>);
+  const goalList = goals.slice(0, itemRendered).map(goal =>
+    <Goal
+      key={goal._id}
+      id={goal._id}
+      name={goal.name}
+      desc={goal.description}
+    />
+  );
 
   function AddGoalButton(){
     return(

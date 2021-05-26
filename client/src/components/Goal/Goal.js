@@ -40,22 +40,19 @@ function SubscribeButton(props) {
   );
 }
 
-
-
-function Goal(props, onDelete) {
+function Goal({ id, name, desc }) {
   const [likes, setLikes] = useState(0);
 
   const likeClicked = (liked) => {
     setLikes(liked ? likes - 1 : likes + 1);
   }
 
-
   return (
     <div className="goal-card">
       <div className="goal-card-info">
         <div className="goal-card-text">
-          <h3>{props.name}</h3>
-          <p>{props.desc}</p>
+          <h3>{name}</h3>
+          <p>{desc}</p>
         </div>
         <ul className="goal-card-button-group">
           <li>
@@ -66,11 +63,8 @@ function Goal(props, onDelete) {
       <div className="goal-card-subscribe">
         <SubscribeButton />
       </div>
-
-      {/* <FaTimes style={{color:'red', cursor:'pointer'} }/>
-      Todo: need to add onClick Method to delete goals */}
     </div>
   );
 }
 
-export default Goal
+export default Goal;
