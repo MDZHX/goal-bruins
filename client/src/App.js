@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Login from './components/Login/Login';
-import Signup from './components/Login/Signup';
+import Signup from './pages/Signup/Signup';
+import Login from './pages/Login/Login';
 import MyGoals from './pages/MyGoals/MyGoals';
 import Discover from './pages/Discover/Discover';
 
