@@ -365,11 +365,15 @@ router.get('/show-created', async (req,res,next)=>{
 
     created_array = [];
     result_array = [];
+    followed_array = [];
+    liked_array = [];
 
     await User.findById(user_id)
         .exec()
         .then(doc =>{
             created_array = doc.goals_created;
+            followed_array = doc.goals_followed;
+            liked_array = doc.goals_liked;
         })
         .catch(err => {
             console.log(err);
@@ -377,9 +381,13 @@ router.get('/show-created', async (req,res,next)=>{
     
     for (var i = 0; i < created_array.length; i++) {
         var current_goal_id = created_array[i];
+        var followed = followed_array.includes(current_goal_id);
+        var liked = liked_array.includes(current_goal_id);
         await Goal.findById(current_goal_id)
-            .exec()
+            .lean()
             .then((doc) => {
+                doc['followed'] = followed;
+                doc['liked'] = liked;
                 result_array.push(doc);
             })
             .catch((err) => {
