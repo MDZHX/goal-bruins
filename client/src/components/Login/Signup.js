@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 import axios from 'axios';
+import {Link} from 'react-router-dom'
+
 
 
 export default function Signup(){
@@ -11,15 +13,19 @@ export default function Signup(){
         watch,
         formState: { errors }
       } = useForm();
+      
       const onSubmit = (data) => {
-        console.log(data);
+        //{username:data.username, password:bcrypt.hash(data.password, 10)}
+        // const hashedPassword= await bcrypt.hash(data.password, 10);
+        // console.log(hashedPassword);
+        //console.log(hash);
         axios
-        .post("http://localhost:5000/user/register", data)
+        .post("http://localhost:5000/user/new-user", {username:data.username, password: data.password})
         .then((res)=>console.log(res.data));
       }; 
     
       //console.log(watch("email")); // you can watch individual input by pass the name of the input
-      console.log(watch("password"));
+      //console.log(watch("password"));
 
       return (
         
@@ -35,10 +41,15 @@ export default function Signup(){
           {errors.email && <span className="error-message">This field is required</span>} */}
 
           <span>Password: </span>
-          <input {...register("password", { required: true }) } placeholder="Password"/>
+          <input {...register("password", { required: true }) } placeholder="Password" type="password"/>
           {errors.password && <span className="error-message">This field is required</span>}
-
+          {/* <Link to="/login">
+            <input type="submit" className="button"/>
+          </Link> */}
           <input type="submit" className="button"/>
+          
+        
+          
         </form>
       );
 }
