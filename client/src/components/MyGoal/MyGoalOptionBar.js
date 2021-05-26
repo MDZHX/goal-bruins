@@ -3,12 +3,6 @@ import './MyGoalOptionBar.css'
 import {useState} from 'react';
 import axios from 'axios';
 
-function getGoal(){
-    axios
-    .post('http://localhost:5000/goal/single-goal', {name:"study"}, {headers:{"content-type": "application/json"}})
-    .then((res)=>console.log(res.data));
-}
-
 
 function Button(props) {
     return (
@@ -23,7 +17,7 @@ function MyGoalOptionBar(props){
     const [addContent, setAddContent]=useState(["","",""]);
    
 
-    function sortByFirstLetter(data,type){
+    function sort(data,type){
         if(type==="fl")
         {
             var tempData=[...data];
@@ -35,6 +29,20 @@ function MyGoalOptionBar(props){
             });
             props.onChange(0,tempData);
         }
+
+        if(type==="newest")
+        {
+            var tempData = [...data];
+            tempData.sort(function(a,b){
+                if(a["createdAt"]<=b["createdAt"]){
+                    return 1;
+                }
+                else
+                    return -1;
+            });
+            props.onChange(0,tempData);
+        }
+
     }
 
     function showArchived(){
@@ -115,7 +123,7 @@ function MyGoalOptionBar(props){
               <Button onClick={showArchived}>Archived</Button>
           </div>
           <div>
-              <select className="sorting-options" onChange={(e)=>{sortByFirstLetter(props.data,e.target.value)}}>
+              <select className="sorting-options" onChange={(e)=>{sort(props.data,e.target.value)}}>
                   <option value="default">Sort by...</option>
                   <option value="fl">First Letter</option>
                   <option value="newest">Newest</option>

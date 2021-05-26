@@ -19,8 +19,9 @@ useEffect(async ()=>{
   //console.log("START!")
   const result = await axios
   .get('http://localhost:5000/goal/all-goals');
-  
+
    setPersonalGoals(result.data);
+   //console.log(result.data);
   },[]);
 
 const [displayOption,setDisplayOption]=useState([false,false]);//first option: archieved, second: today

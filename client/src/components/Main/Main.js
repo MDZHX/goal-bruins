@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Goal from '../Goal/Goal';
 import Nav from '../Nav/Nav';
 import axios from 'axios';
+import Button from '../Button/Button'
+import './Main.css'
+import { use } from '../../../../server/routes/user';
 
 const data = [
     {
@@ -55,7 +58,15 @@ const data = [
 
 function Main(){
     const [goals, setGoals] = useState(data);
-
+    const [itemRendered, setItemRendered] = useState(6);
+    useEffect(async ()=>{
+      //console.log("START!")
+      const result = await axios
+      .get('http://localhost:5000/goal/all-goals');
+    
+       setGoals(result.data);
+       //console.log(result.data);
+      },[]);
     // const [login, setLogin]=useState();
 
     // const config={
@@ -71,15 +82,32 @@ function Main(){
     //     });
     //   }
     // )
-    
-    
-    
-    
+      function expandList()
+      {
+        setItemRendered(itemRendered+4);
+      }   
+      
+      const goalList = goals.map((goal) => {if(goals.indexOf(goal)<itemRendered) return<Goal key={goal.id} name={goal.name} desc={goal.desc}/>});
+      
+      function AddGoalButton(){
+          return(
+            <div >
+               <Button onClick = {expandList} className="expaonsion-button-container">
+                    <div className="expansion-button">
+                       Load More Goals...
+                    </div>
+               </Button>
+            </div>
+          )
+      }
+
+
       return(
           <>
               <Nav/>
               <div className="goals">
-                  {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc}/>)}
+                  {goalList}
+                  <AddGoalButton></AddGoalButton>
               </div>
           </>
       )
