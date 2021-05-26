@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 
 const goalSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    //_id: mongoose.Schema.Types.ObjectId,
     
     name: {
         type: String,
@@ -22,6 +22,11 @@ const goalSchema = new Schema({
     },
 
     likes: {
+        type: Number, 
+        default: 0,
+    },
+
+    follows: {
         type: Number, 
         default: 0,
     }

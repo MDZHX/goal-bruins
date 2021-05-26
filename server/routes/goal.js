@@ -14,9 +14,9 @@ router.use(express.json())
 router.post('/add-goal', (req, res) =>{
     const {name, description} = req.body;
     const goal = new Goal({
-        name: 'bryan exercise',
-        description: 'bryan go exercise',
-        author: '60ac4ca4d0280499bfa67f17'
+        name: req.body["name"],
+        description: req.body["description"],
+        authorId: '60ac4ca4d0280499bfa67f17'
     })
 
     goal.save()
@@ -139,6 +139,7 @@ router.get('/',(req, res, next)=>{
                         name: doc.name,
                         description: doc.description,
                         likes: doc.likes,
+                        follows: doc.follows,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:5000/user/' + doc.authorId
@@ -162,7 +163,8 @@ router.post('/',(req, res, next)=>{
         name: req.body.name,
         description: req.body.description,
         authorId: req.body.authorId,
-        likes: req.body.likes
+        likes: req.body.likes,
+        follows: req.body.follows
     });
     goal.save()
         .then(result => {

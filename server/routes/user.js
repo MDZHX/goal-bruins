@@ -122,6 +122,30 @@ router.patch("/follow-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+
+        await Goal.findById(req.body.goalId) 
+        .exec()
+        .then((doc) => {
+            cur_follows = doc.follows
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(404).json({
+                status:'Fail',
+                message: 'goal does not exist'
+            })
+        })
+
+        Goal.update({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,0)+1}})      //increment the number of likes
+        .exec()
+        .then((doc) => {
+            console.log(doc);
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
     } else {
         console.log("goal already followed")
         res.status(403).json({
@@ -164,6 +188,30 @@ router.patch("/unfollow-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+
+        await Goal.findById(req.body.goalId) 
+        .exec()
+        .then((doc) => {
+            cur_follows = doc.follows
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(404).json({
+                status:'Fail',
+                message: 'goal does not exist'
+            })
+        })
+
+        Goal.update({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,1)-1}})      //increment the number of likes
+        .exec()
+        .then((doc) => {
+            console.log(doc);
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
     } else{
         console.log("goal was not followed")
         res.status(403).json({
@@ -174,8 +222,6 @@ router.patch("/unfollow-goal", async (req,res,next) =>{
     
     
 });
-
-
 
 
 router.patch("/like-goal", async (req,res,next) =>{
@@ -219,10 +265,14 @@ router.patch("/like-goal", async (req,res,next) =>{
         })
         .catch((err) => {
             console.log(err)
+            res.status(404).json({
+                status:'Fail',
+                message: 'goal does not exist'
+            })
         })
 
 
-        Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes+1}})      //increment the number of likes
+        Goal.update({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,0)+1}})      //increment the number of likes
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -231,6 +281,7 @@ router.patch("/like-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+
     }  else {
         console.log("goal already liked")
         res.status(403).json({
@@ -285,9 +336,13 @@ router.patch("/unlike-goal", async (req,res,next) =>{
         })
         .catch((err) => {
             console.log(err)
+            res.status(404).json({
+                status:'Fail',
+                message: 'goal does not exist'
+            })
         })
     
-        Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes-1}})
+        Goal.update({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,1)-1}})
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -296,6 +351,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+
     } else {
         console.log("goal was not liked")
         res.status(403).json({
