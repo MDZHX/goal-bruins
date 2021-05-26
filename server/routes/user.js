@@ -79,7 +79,7 @@ router.get('/login', async (req, res) => {
 router.patch("/follow-goal",(req,res,next) =>{
     /*
     required body elements:
-        userId
+        jwt_token
         goalId
     procedure:
         add a goal to a user's goals_followed array
@@ -102,18 +102,24 @@ router.patch("/follow-goal",(req,res,next) =>{
         })
 });
 
+
+
+
 router.patch("/like-goal", async (req,res,next) =>{
     /*
     required body elements:
-        userId
+        jwt_token
         goalId
     procedure:
         add a goal to a user's goals_liked array, also increment the likes field in goal by 1
 
     Tested------------------------Yes!
     */
+
+    const user_id = jwt_userId(req.body.jwt_token);
+
     User.update(
-            {_id: req.body.userId },
+            {_id: user_id },
             {$push: {goals_liked : req.body.goalId}}
         )
         .exec()
@@ -151,15 +157,18 @@ router.patch("/like-goal", async (req,res,next) =>{
 router.patch("/unlike-goal", async (req,res,next) =>{
     /*
     required body elements:
-        userId
+        jwt_token
         goalId
     procedure:
         add a goal to a user's goals_liked array, also increment the likes field in goal by 1
 
     Tested------------------------Yes!
     */
+
+    const user_id = jwt_userId(req.body.jwt_token);
+
     User.update(
-            {_id: req.body.userId },
+            {_id: user_id },
             {$pull: {goals_liked : req.body.goalId}}  
         )
         .exec()
@@ -196,7 +205,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
 router.patch("/create-goal", async (req,res,next) =>{
     /*
     required body elements:
-        userId
+        jwt_token
         goal_name
         goal_description
     procedure:
@@ -204,13 +213,13 @@ router.patch("/create-goal", async (req,res,next) =>{
 
     Tested------------------------Yes!
     */
-    const {userId, goal_name, goal_description} = req.body;
+    const user_id = jwt_userId(req.body.jwt_token);
 
     const goal = new Goal({
         _id: mongoose.Types.ObjectId(),
         name: req.body.goal_name,
         description: req.body.goal_description,
-        authorId: req.body.userId
+        authorId: user_id
     })
 
     const goalId = goal._id;
@@ -227,7 +236,7 @@ router.patch("/create-goal", async (req,res,next) =>{
             });
         });
 
-    User.update({_id: req.body.userId },{$push: {goals_created : goalId}})
+    User.update({_id: user_id },{$push: {goals_created : goalId}})
         .exec()
         .exec()
         .then((doc) => {
@@ -246,18 +255,22 @@ router.patch("/create-goal", async (req,res,next) =>{
 router.get('/show-followed', async (req,res,next)=>{
     /*
     required body elements:
-        userId
+        jwt_token
     procedure:
         return all the goals that are in the user's goals_followed array
 
     Tested------------------------Yes!
     */
+
+    const user_id = jwt_userId(req.body.jwt_token);
+
+
     followed_array = [];
     // liked_array = [];
     result_array = [];
 
 
-    await User.findById(req.body.userId)
+    await User.findById(user_id)
         .exec()
         .then(doc =>{
             followed_array = doc.goals_followed;
@@ -286,18 +299,22 @@ router.get('/show-followed', async (req,res,next)=>{
 router.get('/show-liked', async (req,res,next)=>{
     /*
     required body elements:
-        userId
+        jwt_token
     procedure:
         return all the goals that are in the user's goals_liked array
 
     Tested------------------------Yes!
     */
+
+    const user_id = jwt_userId(req.body.jwt_token);
+
+
     // followed_array = [];
     liked_array = [];
     result_array = [];
 
 
-    await User.findById(req.body.userId)
+    await User.findById(user_id)
         .exec()
         .then(doc =>{
             liked_array = doc.goals_liked;
@@ -329,16 +346,19 @@ router.get('/show-liked', async (req,res,next)=>{
 router.get('/show-created', async (req,res,next)=>{
     /*
     required body elements:
-        userId
+        jwt_token
     procedure:
         return all the goals that are in the user's goals_created array
 
     Tested------------------------Yes!
     */
+    const user_id = jwt_userId(req.body.jwt_token);
+
+
     created_array = [];
     result_array = [];
 
-    await User.findById(req.body.userId)
+    await User.findById(user_id)
         .exec()
         .then(doc =>{
             created_array = doc.goals_created;
