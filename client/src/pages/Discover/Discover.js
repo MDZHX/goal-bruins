@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import Goal from '../../components/Goal/Goal';
 import Nav from '../../components/Nav/Nav';
 import Button from '../../components/Button/Button'
-
-import axios from 'axios';
 
 import './Discover.css'
 

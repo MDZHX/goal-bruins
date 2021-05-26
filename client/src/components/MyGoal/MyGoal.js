@@ -1,7 +1,8 @@
-import React,{useState} from 'react'
-import './MyGoal.css'
+import React, { useState } from 'react'
+
 import Button from '../Button/Button';
 
+import './MyGoal.css'
 
 function OptionButton(props){
     return(

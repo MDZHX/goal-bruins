@@ -1,11 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 import Button from '../Button/Button';
 import LogoButton from '../LogoButton/LogoButton';
 import IconButton from '../IconButton/IconButton';
 import Search from '../Search/Search';
-
-import { Link } from 'react-router-dom'
 
 import './Nav.css';
 

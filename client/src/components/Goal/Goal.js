@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../Button/Button';
+
 import "./Goal.css";
 
 function LikeButton(props) {

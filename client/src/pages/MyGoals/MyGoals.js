@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 
 import Nav from '../../components/Nav/Nav';
 import MyGoal from '../../components/MyGoal/MyGoal.js'
 import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
-
-import axios from 'axios'
-
 
 const MyGoals=()=>{
   const [personalGoals, setPersonalGoals]=useState([]);
