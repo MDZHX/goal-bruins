@@ -86,8 +86,11 @@ router.patch("/follow-goal",(req,res,next) =>{
     Tested------------------------Yes!
     */
     // const {userId, goalId} = req.body;
+    const {data} = req.body;
+    const user_id = jwt_userId(data);
+
     User.update(
-            {_id: req.body.userId },
+            {_id: user_id },
             // {$set: {password: "12345"}}
             {$push: {goals_followed : req.body.goalId}}
         )
