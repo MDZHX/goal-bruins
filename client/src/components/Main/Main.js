@@ -51,31 +51,39 @@ const data = [
     },
   ]
 
-function dummy(){
-  axios.get('http://localhost:5000/')
-  .then(Response=>console.log(Response));
-}
+
 
 function Main(){
     const [goals, setGoals] = useState(data);
 
-    //Todo: deleteGoal Method is complemeted, need to add this function to onClick
-    const deleteGoal = (id)=>{
-        setGoals(goals.filter((goal)=>goal.id !==id))
-    }
+    // const [login, setLogin]=useState();
 
-    return(
-        <>
-            <Nav/>
-            <div className="goals">
-                {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc} onDelete={deleteGoal}/>)}
-            </div>
-            <button onClick={dummy}>
-              dummy
-            </button>
-        </>
-
-    )
+    // const config={
+    //   header:{
+    //     Authorization:'Bearer'+ localStorage.getItem('token')
+    //   }
+    // };
+    // axios.get('http://localhost:5000/', config)
+    // .then(
+    //   (res)=>{
+    //     setLogin({
+    //       login:res.data
+    //     });
+    //   }
+    // )
+    
+    
+    
+    
+      return(
+          <>
+              <Nav/>
+              <div className="goals">
+                  {goals.map((goal) => <Goal key={goal.id} name={goal.name} desc={goal.desc}/>)}
+              </div>
+          </>
+      )
+    
 }
 
 export default Main;

@@ -67,8 +67,8 @@ function Goal(props, onDelete) {
         <SubscribeButton />
       </div>
 
-      <FaTimes style={{color:'red', cursor:'pointer'}}/>
-      {/* Todo: need to add onClick Method to delete goals */}
+      {/* <FaTimes style={{color:'red', cursor:'pointer'} }/>
+      Todo: need to add onClick Method to delete goals */}
     </div>
   );
 }
