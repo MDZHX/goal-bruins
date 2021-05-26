@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import Button from '../Button/Button';
-import {FaTimes} from 'react-icons/fa';
 import "./Goal.css";
 
 function LikeButton(props) {

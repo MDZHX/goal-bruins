@@ -13,15 +13,20 @@ export default function Signup(){
         watch,
         formState: { errors }
       } = useForm();
-      
+
       const onSubmit = (data) => {
         //{username:data.username, password:bcrypt.hash(data.password, 10)}
         // const hashedPassword= await bcrypt.hash(data.password, 10);
         // console.log(hashedPassword);
         //console.log(hash);
         axios
-        .post("http://localhost:5000/user/new-user", {username:data.username, password: data.password})
-        .then((res)=>console.log(res.data));
+        .post("http://localhost:5000/user/new-user", data)
+        .catch((err)=>{
+          if (err.code===11000){
+            alert("Username already exist!")
+            return;
+          }
+        });
       }; 
     
       //console.log(watch("email")); // you can watch individual input by pass the name of the input

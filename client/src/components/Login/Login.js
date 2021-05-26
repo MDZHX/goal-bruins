@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React , {useState} from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 import {Link} from 'react-router-dom'
@@ -6,40 +6,36 @@ import axios from 'axios';
 
 //const jwt = require('jsonwebtoken')
 
+
 export default function Login(){
-  const [userLogedIn, setUserLogedIn]=useState(false)
-
-    function UserLoginedIn(){
-      const config={
-        header:{
-          Authorization:'Bearer'+ localStorage.getItem('token')
-        }
-      }
-      axios.get('http://localhost:5000/', config)
-      .then(
-          setUserLogedIn({
-            userLogedIn:true
-          })
-      );
-    }
-
+    
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors }
       } = useForm();
+    
+      
       const onSubmit = (data) => {
-        data.preventDefault();
+            
         console.log(data);
         axios
         .post(
           'http://localhost:5000/user/login', 
           data, 
           {headers:{"content-type": "application/json"}}
-        ).then((res)=>localStorage.setItem('token',res.data.token));
+        )
+        .then((res)=>{
+            let token_deserialized=JSON.stringify(res.data.data);
+            let status_deserialized=JSON.stringify(res.data.status);
+            if (status_deserialized==="ok"){
+              localStorage.setItem('token',token_deserialized)
+            }
+            console.log(localStorage.getItem('token'));
+        });
       }; 
-    
+
       // console.log(watch("email")); // you can watch individual input by pass the name of the input
       // console.log(watch("password"));
       return (
