@@ -5,7 +5,7 @@ const User = require('../models/user')
 const Goal = require('../models/goal');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = "IamASecreatCode"
+const {JWT_SECRET, jwt_userId} = require('./jwt.js')
 router.use(express.json())
 
 // --------------------------------------latest version---------------------------------------//
