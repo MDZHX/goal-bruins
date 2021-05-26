@@ -76,7 +76,7 @@ router.get('/login', async (req, res) => {
 
 
 
-router.patch("/follow-goal",(req,res,next) =>{
+router.patch("/follow-goal", async (req,res,next) =>{
     /*
     required body elements:
         jwt_token
@@ -88,9 +88,16 @@ router.patch("/follow-goal",(req,res,next) =>{
     */
     const user_id = jwt_userId(req.body.jwt_token);
 
-    User.update(
+
+    await User.findById(user_id)
+        .exec()
+        .then((doc) => {
+            already_followed = doc.goals_followed.includes(req.body.goalId)
+        })
+
+    if(!already_followed){
+        User.update(
             {_id: user_id },
-            // {$set: {password: "12345"}}
             {$push: {goals_followed : req.body.goalId}}
         )
         .exec()
@@ -100,6 +107,57 @@ router.patch("/follow-goal",(req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+    } else {
+        console.log("goal already followed")
+        res.status(403).json({
+            status:'Fail',
+            message: 'goal already followed'
+        })
+    }
+});
+
+
+router.patch("/unfollow-goal", async (req,res,next) =>{
+    /*
+    required body elements:
+        jwt_token
+        goalId
+    procedure:
+        remove a goal from a user's goals_followed array
+
+    Tested------------------------Yes!
+    */
+    const user_id = jwt_userId(req.body.jwt_token);
+
+
+    await User.findById(user_id)
+        .exec()
+        .then((doc) => {
+            already_followed = doc.goals_followed.includes(req.body.goalId)
+        })
+
+
+    if(already_followed){
+        User.update(
+            {_id: user_id },
+            {$pull: {goals_followed : req.body.goalId}}
+        )
+        .exec()
+        .then((doc) => {
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    } else{
+        console.log("goal not followed")
+        res.status(403).json({
+            status:'Fail',
+            message: 'goal not followed'
+        })
+    }
+    
+    
 });
 
 
@@ -118,7 +176,16 @@ router.patch("/like-goal", async (req,res,next) =>{
 
     const user_id = jwt_userId(req.body.jwt_token);
 
-    User.update(
+    await User.findById(user_id)
+        .exec()
+        .then((doc) => {
+            already_liked = doc.goals_liked.includes(req.body.goalId)
+        })
+
+    
+    if(!already_liked){
+
+        User.update(
             {_id: user_id },
             {$push: {goals_liked : req.body.goalId}}
         )
@@ -130,8 +197,7 @@ router.patch("/like-goal", async (req,res,next) =>{
             console.log(err);
         })
 
-
-    await Goal.findById(req.body.goalId)
+        await Goal.findById(req.body.goalId)        //get the number of likes
         .exec()
         .then((doc) => {
             cur_likes = doc.likes
@@ -139,8 +205,9 @@ router.patch("/like-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err)
         })
-    
-    Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes+1}})
+
+
+        Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes+1}})      //increment the number of likes
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -149,6 +216,14 @@ router.patch("/like-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+    }  else {
+        console.log("goal already liked")
+        res.status(403).json({
+            status:'Fail',
+            message: 'goal already liked'
+        })
+    }
+    
 });
 
 
@@ -167,7 +242,15 @@ router.patch("/unlike-goal", async (req,res,next) =>{
 
     const user_id = jwt_userId(req.body.jwt_token);
 
-    User.update(
+    await User.findById(user_id)
+        .exec()
+        .then((doc) => {
+            already_liked = doc.goals_liked.includes(req.body.goalId)
+        })
+
+
+    if(already_liked){
+        User.update(
             {_id: user_id },
             {$pull: {goals_liked : req.body.goalId}}  
         )
@@ -180,7 +263,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
         })
 
 
-    await Goal.findById(req.body.goalId)
+        await Goal.findById(req.body.goalId)
         .exec()
         .then((doc) => {
             cur_likes = doc.likes
@@ -189,7 +272,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
             console.log(err)
         })
     
-    Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes-1}})
+        Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes-1}})
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -198,6 +281,14 @@ router.patch("/unlike-goal", async (req,res,next) =>{
         .catch((err) => {
             console.log(err);
         })
+    } else {
+        console.log("goal not liked")
+        res.status(403).json({
+            status:'Fail',
+            message: 'goal not liked'
+        })
+    }
+    
 });
 
 
