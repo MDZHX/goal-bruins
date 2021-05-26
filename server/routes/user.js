@@ -4,6 +4,8 @@ const connection = require('../models/connect.js')
 const User = require('../models/user')
 const Goal = require('../models/goal');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = "IamASecreatCode"
 router.use(express.json())
 
 // --------------------------------------latest version---------------------------------------//
@@ -40,6 +42,33 @@ router.post('/new-user', (req,res,next)=>{
             })
         });
 });
+
+router.get('/login', async (req, res) => {
+    const { username, password } = req.body
+    await User.findOne({username: `${username}`}, (err, user) =>{
+        if(err){
+            res.status(403).json({
+                status:'Fail',
+                message: 'Wrong username'
+            })
+        }
+        if(user.password === password){
+            const token = jwt.sign(
+                {
+                    id: user._id,
+                    username: user.username
+                },
+                JWT_SECRET
+            )
+    
+            return res.json({ status: 'ok', data: token })
+        }
+        res.status(403).json({
+            status:'Fail',
+            message: 'Wrong password'
+        })
+    })
+})
 
 
 
