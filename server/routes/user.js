@@ -20,6 +20,7 @@ router.post('/new-user', (req,res,next)=>{
 
     Tested------------------------Yes!
     */
+
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
         username: req.body.username,
@@ -28,25 +29,39 @@ router.post('/new-user', (req,res,next)=>{
         goals_followed: [],
         goals_liked: [],
     });
-    user
-        .save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json({
-                message:'Creating New User',
-                createdUser: result
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error:err
-            })
+
+    user.save(function(err) {
+        if (err) {
+            console.log('Error!');
+            if (err.code === 11000) {
+            console.log('User already exist!');
+            return res.status(500).send(
+                { 
+                    succes: false, 
+                    message: 'User already exist!' 
+                });
+          }
+          return res.status(500).send(err);
+        }
+    
+        res.json({
+          success: true
         });
+    
+    });
 });
 
 
 router.get('/login', async (req, res) => {
+    /*
+    required body elements:
+        username
+        password
+    procedure:
+        allow user to login, returns a token that could be used by jwt to extract userId
+
+    Tested------------------------Yes!
+    */
     const { username, password } = req.body
     await User.findOne({username: `${username}`}, (err, user) =>{
         if(err){
@@ -150,10 +165,10 @@ router.patch("/unfollow-goal", async (req,res,next) =>{
             console.log(err);
         })
     } else{
-        console.log("goal not followed")
+        console.log("goal was not followed")
         res.status(403).json({
             status:'Fail',
-            message: 'goal not followed'
+            message: 'goal was not followed'
         })
     }
     
@@ -282,10 +297,10 @@ router.patch("/unlike-goal", async (req,res,next) =>{
             console.log(err);
         })
     } else {
-        console.log("goal not liked")
+        console.log("goal was not liked")
         res.status(403).json({
             status:'Fail',
-            message: 'goal not liked'
+            message: 'goal was not liked'
         })
     }
     
