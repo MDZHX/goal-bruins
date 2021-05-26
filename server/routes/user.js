@@ -45,6 +45,7 @@ router.post('/new-user', (req,res,next)=>{
         });
 });
 
+
 router.get('/login', async (req, res) => {
     const { username, password } = req.body
     await User.findOne({username: `${username}`}, (err, user) =>{
@@ -85,9 +86,7 @@ router.patch("/follow-goal",(req,res,next) =>{
 
     Tested------------------------Yes!
     */
-    // const {userId, goalId} = req.body;
-    const {data} = req.body;
-    const user_id = jwt_userId(data);
+    const user_id = jwt_userId(req.body.jwt_token);
 
     User.update(
             {_id: user_id },
