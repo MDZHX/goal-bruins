@@ -139,6 +139,7 @@ router.get('/',(req, res, next)=>{
                         name: doc.name,
                         description: doc.description,
                         likes: doc.likes,
+                        follows: doc.follows,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:5000/user/' + doc.authorId
@@ -162,7 +163,8 @@ router.post('/',(req, res, next)=>{
         name: req.body.name,
         description: req.body.description,
         authorId: req.body.authorId,
-        likes: req.body.likes
+        likes: req.body.likes,
+        follows: req.body.follows
     });
     goal.save()
         .then(result => {
