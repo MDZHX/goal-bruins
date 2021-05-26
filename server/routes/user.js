@@ -403,28 +403,56 @@ router.get('/show-created', async (req,res,next)=>{
 router.get('/discover-page', async (req,res,next)=>{
     /*
     required body elements:
-        none
+        jwt_token
     procedure:
         rank all the goals in the database by the number of likes they have, return the top 20 liked goals
 
     Tested------------------------Yes!
     */
+    const user_id = jwt_userId(req.body.jwt_token);
 
-    Goal.find()
-        .sort([['likes',-1]])
-        .limit(20)
+    goal_array = [];
+    result_array = [];
+    followed_array = [];
+    liked_array = [];
+
+    await User.findById(user_id)
         .exec()
-        .then(result => {
-            console.log(result);
-            res.status(201).json(result);
+        .then(doc =>{
+            followed_array = doc.goals_followed;
+            liked_array = doc.goals_liked;
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
+        })
 
+    await Goal.find()
+        .sort([['likes',-1]])
+        .limit(20).exec()
+        .then(result => {
+            goal_array = result;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    
+    for (var i = 0; i < goal_array.length; i++) {
+        var current_goal_id = goal_array[i]._id;
+        var followed = followed_array.includes(current_goal_id);
+        var liked = liked_array.includes(current_goal_id);
+        await Goal.findById(current_goal_id)
+            .lean()
+            .then((doc) => {
+                doc['followed'] = followed;
+                doc['liked'] = liked;
+                result_array.push(doc);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+    console.log(result_array);
+    res.send(result_array);
 });
 
 
