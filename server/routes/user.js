@@ -357,24 +357,28 @@ router.get('/show-followed', async (req,res,next)=>{
 
 
     followed_array = [];
-    // liked_array = [];
+    liked_array = [];
     result_array = [];
 
 
     await User.findById(user_id)
         .exec()
-        .then(doc =>{
+        .then((doc) =>{
             followed_array = doc.goals_followed;
+            liked_array = doc.goals_liked;
         })
         .catch(err => {
             console.log(err);
         })
     
     for (var i = 0; i < followed_array.length; i++) {
-        var current_goal_id = followed_array[i]
+        var current_goal_id = followed_array[i];
+        var liked = liked_array.includes(current_goal_id)
         await Goal.findById(current_goal_id)
-            .exec()
+            .lean()
             .then((doc) => {
+                doc['followed'] = true;
+                doc['liked'] = liked;
                 result_array.push(doc);
             })
             .catch((err) => {
@@ -400,7 +404,7 @@ router.get('/show-liked', async (req,res,next)=>{
     const user_id = jwt_userId(req.body.jwt_token);
 
 
-    // followed_array = [];
+    followed_array = [];
     liked_array = [];
     result_array = [];
 
@@ -408,6 +412,7 @@ router.get('/show-liked', async (req,res,next)=>{
     await User.findById(user_id)
         .exec()
         .then(doc =>{
+            followed_array = doc.goals_followed;
             liked_array = doc.goals_liked;
         })
         .catch(err => {
@@ -416,9 +421,12 @@ router.get('/show-liked', async (req,res,next)=>{
     
     for (var i = 0; i < liked_array.length; i++) {
         var current_goal_id = liked_array[i]
+        var followed = followed_array.includes(current_goal_id)
         await Goal.findById(current_goal_id)
-            .exec()
+            .lean()
             .then((doc) => {
+                doc['followed'] = followed;
+                doc['liked'] = true;
                 result_array.push(doc);
             })
             .catch((err) => {
@@ -448,11 +456,15 @@ router.get('/show-created', async (req,res,next)=>{
 
     created_array = [];
     result_array = [];
+    followed_array = [];
+    liked_array = [];
 
     await User.findById(user_id)
         .exec()
         .then(doc =>{
             created_array = doc.goals_created;
+            followed_array = doc.goals_followed;
+            liked_array = doc.goals_liked;
         })
         .catch(err => {
             console.log(err);
@@ -460,9 +472,13 @@ router.get('/show-created', async (req,res,next)=>{
     
     for (var i = 0; i < created_array.length; i++) {
         var current_goal_id = created_array[i];
+        var followed = followed_array.includes(current_goal_id);
+        var liked = liked_array.includes(current_goal_id);
         await Goal.findById(current_goal_id)
-            .exec()
+            .lean()
             .then((doc) => {
+                doc['followed'] = followed;
+                doc['liked'] = liked;
                 result_array.push(doc);
             })
             .catch((err) => {
@@ -478,28 +494,56 @@ router.get('/show-created', async (req,res,next)=>{
 router.get('/discover-page', async (req,res,next)=>{
     /*
     required body elements:
-        none
+        jwt_token
     procedure:
         rank all the goals in the database by the number of likes they have, return the top 20 liked goals
 
     Tested------------------------Yes!
     */
+    const user_id = jwt_userId(req.body.jwt_token);
 
-    Goal.find()
-        .sort([['likes',-1]])
-        .limit(20)
+    goal_array = [];
+    result_array = [];
+    followed_array = [];
+    liked_array = [];
+
+    await User.findById(user_id)
         .exec()
-        .then(result => {
-            console.log(result);
-            res.status(201).json(result);
+        .then(doc =>{
+            followed_array = doc.goals_followed;
+            liked_array = doc.goals_liked;
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
+        })
 
+    await Goal.find()
+        .sort([['likes',-1]])
+        .limit(20).exec()
+        .then(result => {
+            goal_array = result;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    
+    for (var i = 0; i < goal_array.length; i++) {
+        var current_goal_id = goal_array[i]._id;
+        var followed = followed_array.includes(current_goal_id);
+        var liked = liked_array.includes(current_goal_id);
+        await Goal.findById(current_goal_id)
+            .lean()
+            .then((doc) => {
+                doc['followed'] = followed;
+                doc['liked'] = liked;
+                result_array.push(doc);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+    console.log(result_array);
+    res.send(result_array);
 });
 
 
