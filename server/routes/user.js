@@ -4,6 +4,8 @@ const connection = require('../models/connect.js')
 const User = require('../models/user')
 const Goal = require('../models/goal');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken')
+const {JWT_SECRET, jwt_userId} = require('./jwt.js')
 router.use(express.json())
 
 // --------------------------------------latest version---------------------------------------//
@@ -15,6 +17,8 @@ router.post('/new-user', (req,res,next)=>{
         password
     procedure:
         created a new user with no goals associated
+
+    Tested------------------------Yes!
     */
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
@@ -42,6 +46,34 @@ router.post('/new-user', (req,res,next)=>{
 });
 
 
+router.get('/login', async (req, res) => {
+    const { username, password } = req.body
+    await User.findOne({username: `${username}`}, (err, user) =>{
+        if(err){
+            res.status(403).json({
+                status:'Fail',
+                message: 'Wrong username'
+            })
+        }
+        if(user.password === password){
+            const token = jwt.sign(
+                {
+                    id: user._id,
+                    username: user.username
+                },
+                JWT_SECRET
+            )
+    
+            return res.json({ status: 'ok', data: token })
+        }
+        res.status(403).json({
+            status:'Fail',
+            message: 'Wrong password'
+        })
+    })
+})
+
+
 
 
 router.patch("/follow-goal",(req,res,next) =>{
@@ -51,10 +83,13 @@ router.patch("/follow-goal",(req,res,next) =>{
         goalId
     procedure:
         add a goal to a user's goals_followed array
+
+    Tested------------------------Yes!
     */
-    // const {userId, goalId} = req.body;
+    const user_id = jwt_userId(req.body.jwt_token);
+
     User.update(
-            {_id: req.body.userId },
+            {_id: user_id },
             // {$set: {password: "12345"}}
             {$push: {goals_followed : req.body.goalId}}
         )
@@ -74,8 +109,9 @@ router.patch("/like-goal", async (req,res,next) =>{
         goalId
     procedure:
         add a goal to a user's goals_liked array, also increment the likes field in goal by 1
+
+    Tested------------------------Yes!
     */
-    // const {userId, goalId} = req.body;
     User.update(
             {_id: req.body.userId },
             {$push: {goals_liked : req.body.goalId}}
@@ -98,7 +134,7 @@ router.patch("/like-goal", async (req,res,next) =>{
             console.log(err)
         })
     
-    Goal.update({_id:goalId}, {$set:{likes:cur_likes+1}})
+    Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes+1}})
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -119,11 +155,12 @@ router.patch("/unlike-goal", async (req,res,next) =>{
         goalId
     procedure:
         add a goal to a user's goals_liked array, also increment the likes field in goal by 1
+
+    Tested------------------------Yes!
     */
-    // const {userId, goalId} = req.body;
     User.update(
             {_id: req.body.userId },
-            {$push: {goals_liked : req.body.goalId}}
+            {$pull: {goals_liked : req.body.goalId}}  
         )
         .exec()
         .then((doc) => {
@@ -143,7 +180,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
             console.log(err)
         })
     
-    Goal.update({_id:goalId}, {$set:{likes:cur_likes+1}})
+    Goal.update({_id:req.body.goalId}, {$set:{likes:cur_likes-1}})
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -164,6 +201,8 @@ router.patch("/create-goal", async (req,res,next) =>{
         goal_description
     procedure:
         add a goal to the goal collection, also add it to the user's goals_created array
+
+    Tested------------------------Yes!
     */
     const {userId, goal_name, goal_description} = req.body;
 
@@ -209,10 +248,14 @@ router.get('/show-followed', async (req,res,next)=>{
     required body elements:
         userId
     procedure:
-        add a goal to the goal collection, also add it to the user's goals_created array
+        return all the goals that are in the user's goals_followed array
+
+    Tested------------------------Yes!
     */
     followed_array = [];
+    // liked_array = [];
     result_array = [];
+
 
     await User.findById(req.body.userId)
         .exec()
@@ -224,7 +267,47 @@ router.get('/show-followed', async (req,res,next)=>{
         })
     
     for (var i = 0; i < followed_array.length; i++) {
-        var current_goal_id = followed_array[i];
+        var current_goal_id = followed_array[i]
+        await Goal.findById(current_goal_id)
+            .exec()
+            .then((doc) => {
+                result_array.push(doc);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    console.log(result_array);
+    res.send(result_array);
+});
+
+
+router.get('/show-liked', async (req,res,next)=>{
+    /*
+    required body elements:
+        userId
+    procedure:
+        return all the goals that are in the user's goals_liked array
+
+    Tested------------------------Yes!
+    */
+    // followed_array = [];
+    liked_array = [];
+    result_array = [];
+
+
+    await User.findById(req.body.userId)
+        .exec()
+        .then(doc =>{
+            liked_array = doc.goals_liked;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    for (var i = 0; i < liked_array.length; i++) {
+        var current_goal_id = liked_array[i]
         await Goal.findById(current_goal_id)
             .exec()
             .then((doc) => {
@@ -248,7 +331,9 @@ router.get('/show-created', async (req,res,next)=>{
     required body elements:
         userId
     procedure:
-        add a goal to the goal collection, also add it to the user's goals_created array
+        return all the goals that are in the user's goals_created array
+
+    Tested------------------------Yes!
     */
     created_array = [];
     result_array = [];
@@ -276,6 +361,34 @@ router.get('/show-created', async (req,res,next)=>{
 
     console.log(result_array);
     res.send(result_array);
+});
+
+
+router.get('/discover-page', async (req,res,next)=>{
+    /*
+    required body elements:
+        none
+    procedure:
+        rank all the goals in the database by the number of likes they have, return the top 20 liked goals
+
+    Tested------------------------Yes!
+    */
+
+    Goal.find()
+        .sort([['likes',-1]])
+        .limit(20)
+        .exec()
+        .then(result => {
+            console.log(result);
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error:err
+            });
+        });
+
 });
 
 
