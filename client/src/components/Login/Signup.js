@@ -19,12 +19,16 @@ export default function Signup(){
         // const hashedPassword= await bcrypt.hash(data.password, 10);
         // console.log(hashedPassword);
         //console.log(hash);
+        
         axios
         .post("http://localhost:5000/user/new-user", data)
+        .then(()=>{
+          alert("Signup Successful! Please click login")
+        })
         .catch((err)=>{
-          if (err.code===11000){
-            alert("Username already exist!")
-            return;
+          console.log(err);
+          if (err.code===500){
+            alert("Username already exist!");
           }
         });
       }; 

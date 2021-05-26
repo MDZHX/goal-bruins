@@ -27,12 +27,15 @@ export default function Login(){
           {headers:{"content-type": "application/json"}}
         )
         .then((res)=>{
+            
             let token_deserialized=JSON.stringify(res.data.data);
             let status_deserialized=JSON.stringify(res.data.status);
-            if (status_deserialized==="ok"){
+            
+              console.log(token_deserialized);
               localStorage.setItem('token',token_deserialized)
-            }
-            console.log(localStorage.getItem('token'));
+              console.log(localStorage.getItem('token'));
+            
+            
         });
       }; 
 
