@@ -2,78 +2,74 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
 import Nav from '../../components/Nav/Nav';
-import MyGoal from '../../components/MyGoal/MyGoal.js'
-import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
+import Goal from '../../components/Goal/Goal'
+import CreateGoal from '../../components/CreateGoal/CreateGoal';
+// import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
 
-const MyGoals=()=>{
-  const [personalGoals, setPersonalGoals]=useState([]);
-  //first option: archieved, second: today
-  const [displayOption,setDisplayOption]=useState([false,false]);
+function MyGoals() {
+  const [userGoals, setUserGoals] = useState([]);
 
   useEffect(()=>{
-    async function fetchGoals() {
+    async function fetchUserGoals() {
       const result = await axios
       .get('http://localhost:5000/goal/all-goals');
 
+      console.log("sample", result.data[0]);
       // TODO: error handling
-      setPersonalGoals(result.data);
+      setUserGoals(result.data);
     }
-    fetchGoals();
+    fetchUserGoals();
   },[]);
 
-  //op:0 to set Goals, 1 to set display option (archived?Today?All?)
-  function setPersonalGoal(op, newVal){ 
-    if(op === 0){
-      const diff = newVal.filter(item=>!personalGoals.includes(item));
-      console.log(diff.length);
-      if(diff.length > 0)
-      {
-        for(var i =0; i<diff.length; i++){
-          console.log("NEW POSTING:",diff[i].name,diff[i].description);
-          axios.post('http://localhost:5000/goal/add-goal', {name:diff[i].name,description:diff[i].description});
-        }
-      }
-      console.log(newVal)
-      setPersonalGoals(newVal);
-    }
-    else
-      setDisplayOption(newVal);
+  const createGoal = (goal, setName, setDescription) => {
+    axios
+    .post('http://localhost:5000/goal/add-goal', goal)
+    .then(res => {
+      // TODO: error handling
+      setUserGoals([res.data].concat(userGoals));
+      setName("");
+      setDescription("");
+    });
   }
 
-  const personalGoalList = personalGoals.map((goal) => {
-    if(!displayOption[0]) {
-      return (
-        <MyGoal 
-          id={goal.id}
-          name={goal.name} 
-          description={goal.description} 
-          onChange={setPersonalGoal}
-          data = {personalGoals}>
-        </MyGoal>
-      );
-    }
+  // //op:0 to set Goals, 1 to set display option (archived?Today?All?)
+  // function setPersonalGoal(op, newVal){ 
+  //   if(op === 0){
+  //     const diff = newVal.filter(item=>!personalGoals.includes(item));
+  //     console.log(diff.length);
+  //     if(diff.length > 0)
+  //     {
+  //       for(var i =0; i<diff.length; i++){
+  //         console.log("NEW POSTING:",diff[i].name,diff[i].description);
+  //         axios.post('http://localhost:5000/goal/add-goal', {name:diff[i].name,description:diff[i].description});
+  //       }
+  //     }
+  //     console.log(newVal)
+  //     setPersonalGoals(newVal);
+  //   }
+  //   else
+  //     setDisplayOption(newVal);
+  // }
 
-    else {
-      return (
-        <MyGoal 
-          id={goal.id}
-          name={goal.name} 
-          description={goal.description} 
-          onChange={setPersonalGoal}
-          data = {personalGoals}>
-        </MyGoal>
-      );
-    }
-  });
+  const userGoalList = userGoals.map(goal =>
+    <Goal
+      key={goal._id}
+      id={goal._id}
+      name={goal.name}
+      desc={goal.description}
+    />
+  );
 
   return (
-  <>
-    <Nav />
-    <MyGoalOptionBar data={personalGoals} onChange={setPersonalGoal} />
-    <div>
-      {personalGoalList}
-    </div>
-  </>
+    <>
+      <Nav />
+      {/* TODO: Modify the option bar */}
+      {/* <MyGoalOptionBar data={personalGoals} onChange={setPersonalGoal} /> */}
+      <CreateGoal createGoal={createGoal} />
+      <div>
+        {userGoalList}
+      </div>
+    </>
   );
 };
 
