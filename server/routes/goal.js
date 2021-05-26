@@ -14,9 +14,9 @@ router.use(express.json())
 router.post('/add-goal', (req, res) =>{
     const {name, description} = req.body;
     const goal = new Goal({
-        name: 'bryan exercise',
-        description: 'bryan go exercise',
-        author: '60ac4ca4d0280499bfa67f17'
+        name: req.body["name"],
+        description: req.body["description"],
+        authorId: '60ac4ca4d0280499bfa67f17'
     })
 
     goal.save()

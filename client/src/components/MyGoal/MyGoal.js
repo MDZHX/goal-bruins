@@ -18,7 +18,7 @@ function MyGoal(props){
     const [change,setChange]=useState(false);
 
     //>>>>>>>>>>>>>>>IF DATA STRUCTURE IS CHANGED, CHANGE THIS!<<<<<<<<<<<<<<<<<<<<<<
-    const [changeContent,setChangeContent]=useState([props.name,props.desc]);
+    const [changeContent,setChangeContent]=useState([props.name,props.description]);
 
     //alert(selection);
     if(!property)
@@ -27,7 +27,7 @@ function MyGoal(props){
         <div className="mgc">
             <div className="goal-card-info">
                 <h3>{props.name}</h3>
-                <p>{props.desc}</p>
+                <p>{props.description}</p>
             </div>
             <OptionButton onClick={()=>propertySet(true)} text="Options">
             </OptionButton>
@@ -44,7 +44,7 @@ function MyGoal(props){
                     //>>>>>>>>CHANGE THIS IF U CHANGE DATA STRUCTURE!!<<<<<<<<<<<<
                     copy["id"]=props.id;
                     copy["name"]=changeContent[0];
-                    copy["desc"]=changeContent[1];
+                    copy["description"]=changeContent[1];
                     copy["archived"]=props.data[i].archived;
                     tempData[i]=copy;
                     props.onChange(0,tempData);
@@ -56,17 +56,17 @@ function MyGoal(props){
         <div className="mgc">
             <div className="goal-card-info">
                 <h3>{props.name}</h3>
-                <p>{props.desc}</p>
+                <p>{props.description}</p>
             </div>
             <div className="change-input">
             <input defaultValue={props.name} onChange={(e)=>{setChangeContent([e.target.value,changeContent[1]])}}></input>
-            <input defaultValue={props.desc} onChange={(e)=>{setChangeContent([changeContent[0],e.target.value])}}></input>
+            <input defaultValue={props.description} onChange={(e)=>{setChangeContent([changeContent[0],e.target.value])}}></input>
             <OptionButton onClick={()=>{applyChange(); setChange(false);propertySet(false);}}text="Save">
             </OptionButton>
             </div>
         </div>
         );
-        
+
     }
     else
     {
@@ -99,7 +99,7 @@ function MyGoal(props){
                     //>>>>>>>>CHANGE THIS IF U CHANGE DATA STRUCTURE!!<<<<<<<<<<<<
                     copy["id"]=props.id;
                     copy["name"]=props.data[i].name;
-                    copy["desc"]=props.data[i].desc;
+                    copy["description"]=props.data[i].description;
                     copy["archived"]=!props.data[i].archived;
                     tempData[i]=copy;
                     props.onChange(0,tempData);
@@ -115,7 +115,7 @@ function MyGoal(props){
             
             <div className="goal-card-info">
                 <h3>{props.name}</h3>
-                <p>{props.desc}</p>
+                <p>{props.description}</p>
             </div>
             <div className="info-change-box">
                  <select className="option-drop-down-box" onChange={(e)=>{changeGoal(e.target.value);e.target.value="chage"?setChange(true):propertySet(false)}}>

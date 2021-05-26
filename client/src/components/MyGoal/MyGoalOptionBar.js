@@ -59,7 +59,7 @@ function MyGoalOptionBar(props){
         var copy={};
         copy["id"]=tempId;
         copy["name"]=addContent[0];
-        copy["desc"]=addContent[1];
+        copy["description"]=addContent[1];
         copy["archived"]=false;
         tempData.push(copy);
         props.onChange(0,tempData);
@@ -107,9 +107,9 @@ function MyGoalOptionBar(props){
     <>
       <div className="my-goal-option-bar">
           <div>
-            <button onClick={getGoal}>
+            {/* <button onClick={getGoal}>
                 dummy
-            </button>
+            </button> */}
               <Button onClick={showAll}>All</Button>
               <Button>Today</Button>
               <Button onClick={showArchived}>Archived</Button>
