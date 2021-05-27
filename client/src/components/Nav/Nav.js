@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link , Route} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import Button from '../Button/Button';
 import LogoButton from '../LogoButton/LogoButton';
@@ -14,7 +14,7 @@ function Nav(props) {
       <div className="app-header-container">
         <div className="app-header-logo">
           {/* TODO: Change logo source */}
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/discover" style={{ textDecoration: 'none' }}>
             <LogoButton logo={"./logo192.png"} alt={"logo"} text={"Goal Bruins"} />
           </Link>
         </div>
