@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 
 const goalSchema = new Schema({
-    //_id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     
     name: {
         type: String,
-        required: true
+        unique: true
     },
     description: {
         type: String,
@@ -28,7 +28,7 @@ const goalSchema = new Schema({
 
     follows: {
         type: Number, 
-        default: 0,
+        default: 1,
     }
 
 }, { timestamps: true });

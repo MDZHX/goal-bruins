@@ -1,0 +1,10 @@
+.not-signed-in{
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  background-color: #3374e3;
+  display: inline-block;
+  align-self: center;
+}

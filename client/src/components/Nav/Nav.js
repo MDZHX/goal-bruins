@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link , Route} from 'react-router-dom'
 
 import Button from '../Button/Button';
 import LogoButton from '../LogoButton/LogoButton';
@@ -38,13 +38,16 @@ function Nav(props) {
         </nav>
         <ul className="app-header-icon-group">
           <li>
-            <IconButton icon={"fas fa-bookmark"} />
-          </li>
-          <li>
-            <IconButton icon={"fas fa-bell"} />
-          </li>
-          <li>
-            <IconButton icon={"fas fa-user-circle"} />
+            <IconButton icon={"fas fa-power-off"} onClick={()=>{
+              localStorage.removeItem('token');
+              alert("Logging you out! Redirecting...");
+              window.location='/signup';
+            }}/>
+            {/* // <button onClick={()=>{
+            //   localStorage.removeItem('token');
+            //   alert("Logging you out! Redirecting...");
+            //   window.location='/signup';
+            // }}>logout</button> */}
           </li>
         </ul>
       </div>
