@@ -92,7 +92,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-router.post("/create-goal", async (req,res,next) =>{
+router.patch("/create-goal", async (req,res,next) =>{
     /*
     required body elements:
         "jwt_token" : "",
@@ -458,7 +458,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
 
 
 
-router.get('/show-followed', async (req,res,next)=>{
+router.patch('/show-followed', async (req,res,next)=>{
     /*
     required body elements:
         jwt_token

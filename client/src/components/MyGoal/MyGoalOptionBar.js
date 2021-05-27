@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-
 import './MyGoalOptionBar.css'
-
 //import Button from '../Button/Button';
+import {useState} from 'react';
+import axios from 'axios';
+
 
 function Button(props) {
     return (
@@ -53,6 +53,9 @@ function MyGoalOptionBar(props){
         props.onChange(1,[0,0]);
     }
 
+    function showToday(){
+      props.onChange(1,[0,1]);
+    }
     //>>>>>>>>>>>>>>>IF DATA STRUCTURE IS CHANGED, CHANGE THIS!<<<<<<<<<<<<<<<<<<<<<<
     function setNewGoal(){
         if(addContent[0]==="")
@@ -119,7 +122,7 @@ function MyGoalOptionBar(props){
                 dummy
             </button> */}
               <Button onClick={showAll}>All</Button>
-              <Button>Today</Button>
+              <Button onClick={showToday}>Today</Button>
               <Button onClick={showArchived}>Archived</Button>
           </div>
           <div>
