@@ -682,7 +682,6 @@ router.get('/search-page', async (req,res,next)=>{
   liked_array = [];
   result_array = [];
 
-
   await User.findById(user_id)
       .exec()
       .then(doc =>{
@@ -694,10 +693,10 @@ router.get('/search-page', async (req,res,next)=>{
       })
   
 
-  await Goal.find({ name : req.body.goal_name})
-      .exec()
-      .then((docs)=>{
-        result_array = docs;
+  await Goal.findOne({ name : req.body.goal_name})
+      .lean()
+      .then((doc)=>{
+        result_array.push(doc);
       })
       .catch((err) => {
         console.log(err);
@@ -711,8 +710,6 @@ router.get('/search-page', async (req,res,next)=>{
     current_goal['followed'] = followed;
     current_goal['liked'] = liked;
   }
-
-
   console.log(result_array);
   res.send(result_array);
 });
