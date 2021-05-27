@@ -92,7 +92,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-router.patch("/create-goal", async (req,res,next) =>{
+router.post("/create-goal", async (req,res,next) =>{
     /*
     required body elements:
         "jwt_token" : "",
@@ -114,17 +114,36 @@ router.patch("/create-goal", async (req,res,next) =>{
 
     const goalId = goal._id;
 
-    goal.save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
+    // goal.save()
+    //     .then(result => {
+    //         console.log(result);
+    //         res.status(201).json(result);
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //         res.status(500).json({
+    //             error:err
+    //         });
+    //     });
+    goal.save(function(err) {
+      if (err) {
+          console.log('Error!');
+          if (err.code === 11000) {
+          console.log('Goal already exist!');
+          return res.status(500).send(
+              { 
+                  succes: false, 
+                  message: 'Goal already exist!' 
+              });
+        }
+        return res.status(500).send(err);
+      }
+    
+      res.json({
+        success: true
+      });
+    
+    });
 
     
      User.update({_id: user_id },  {$push: {goals_created : goalId, goals_followed : goalId}})
@@ -137,6 +156,26 @@ router.patch("/create-goal", async (req,res,next) =>{
 
 
 
+
+// goal.save(function(err) {
+//   if (err) {
+//       console.log('Error!');
+//       if (err.code === 11000) {
+//       console.log('Goal already exist!');
+//       return res.status(500).send(
+//           { 
+//               succes: false, 
+//               message: 'Goal already exist!' 
+//           });
+//     }
+//     return res.status(500).send(err);
+//   }
+
+//   res.json({
+//     success: true
+//   });
+
+// });
 
 
 router.patch("/follow-goal", async (req,res,next) =>{
@@ -628,6 +667,62 @@ router.get('/discover-page', async (req,res,next)=>{
     console.log(result_array);
     res.send(result_array);
 });
+
+
+
+router.get('/search-page', async (req,res,next)=>{
+  /*
+  required body elements:
+      jwt_token
+      goal_name
+  procedure:
+      return all the goals that are in the user's goals_liked array
+
+  Tested------------------------Yes!
+  */
+
+  const user_id = jwt_userId(req.body.jwt_token);
+
+
+  followed_array = [];
+  liked_array = [];
+  result_array = [];
+
+
+  await User.findById(user_id)
+      .exec()
+      .then(doc =>{
+          followed_array = doc.goals_followed;
+          liked_array = doc.goals_liked;
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  
+
+  await Goal.find({ name : req.body.goal_name})
+      .exec()
+      .then((docs)=>{
+        result_array = docs;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+  
+  for (var i = 0; i < result_array.length; i++){
+    var current_goal = result_array[i]
+    var followed = followed_array.includes(current_goal["_id"]);
+    var liked = liked_array.includes(current_goal["_id"]);
+    current_goal['followed'] = followed;
+    current_goal['liked'] = liked;
+  }
+
+
+  console.log(result_array);
+  res.send(result_array);
+});
+
 
 
 
