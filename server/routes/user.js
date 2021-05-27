@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
     await User.findOne({username: `${username}`}, (err, user) =>{
         if(err){
             res.status(403).json({
-                status:'Fail',
+                status:403,
                 message: 'Wrong username'
             })
         }
@@ -79,10 +79,13 @@ router.post('/login', async (req, res) => {
                 JWT_SECRET
             )
     
-            return res.json({ status: 'ok', data: token })
+            return res.json({
+              status: 200,
+              data: token
+            })
         }
         res.status(403).json({
-            status:'Fail',
+            status:403,
             message: 'Wrong password'
         })
     })
