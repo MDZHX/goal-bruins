@@ -12,7 +12,6 @@ function Login(){
   } = useForm();
 
   const onSubmit = (data) => {
-    
     axios
     .post(
       'http://localhost:5000/user/login', 
