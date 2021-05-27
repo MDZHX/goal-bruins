@@ -11,7 +11,10 @@ import './App.css';
 
 function App() {
   useEffect(()=>{
-    if (window.location.href!="http://localhost:3000/signup"&&window.location.href!="http://localhost:3000/login"&&!localStorage.getItem('token')){
+    if (window.location.href!="http://localhost:3000/signup"&&
+    window.location.href!="http://localhost:3000/login"&&
+    window.location.href!="http://localhost:3000/"&&
+    !localStorage.getItem('token')){
       alert("You are not Logged in! Redirecting...");
       window.location='/signup';
     }
@@ -25,7 +28,7 @@ function App() {
           <Route path="/mygoals" component={MyGoals}/>
           <Route path ="/signup" component={Signup}/> 
           <Route path ="/login" component={Login}/> 
-          <Route path ="/" component={Discover}/>
+          <Route path ="/" component={Signup}/>
         </Switch>
       </Router>
     </div>
