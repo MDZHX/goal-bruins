@@ -11,9 +11,9 @@ import './App.css';
 
 function App() {
   useEffect(()=>{
-    if (window.location.href!="http://localhost:3000/signup"&&
-    window.location.href!="http://localhost:3000/login"&&
-    window.location.href!="http://localhost:3000/"&&
+    if (window.location.href !== "http://localhost:3000/signup"&&
+    window.location.href !== "http://localhost:3000/login"&&
+    window.location.href !== "http://localhost:3000/"&&
     !localStorage.getItem('token')){
       alert("You are not Logged in! Redirecting...");
       window.location='/signup';

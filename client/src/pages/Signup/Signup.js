@@ -23,7 +23,7 @@ function Signup(){
       alert("Signup Successful! Redirecting to Login Page")
     })
     .catch(() => {
-      alert("Username Already Exist!")
+      alert("Username Already Exists!")
     })
     .then(()=>{
       window.location.href = "/login";
