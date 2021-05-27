@@ -13,6 +13,10 @@ body{
   color:black;
 }
 
+.button{
+  padding: 10px;
+  margin-left: 45px;
+}
 /* .user-form h1{
   float: left;
   font-size: 40px;

@@ -24,9 +24,12 @@ function Login(){
         // let status_deserialized=JSON.stringify(res.data.status);
         if(res.status){
           localStorage.setItem('token',token_deserialized)
+          console.log(localStorage.getItem('token'));
+          window.location.href = "/";
         }
     })
     .catch(()=>{
+      localStorage.clear();
       alert("Incorrect Password/Username!");
     });
   };
