@@ -587,9 +587,13 @@ router.get('/discover-page', async (req,res,next)=>{
         .catch(err => {
             console.log(err);
         })
+    
+    // Create a temp variable "discover_rank" to select the goals that go on the top
+    await Goal.updateMany([
+        {$addFields:{discover_rank:{$add: ["$follows", "$follows", "$likes"]}}}])
 
     await Goal.find()
-        .sort([['likes',-1]])
+        .sort([['discover_rank',-1]])
         .limit(20).exec()
         .then(result => {
             goal_array = result;
@@ -597,7 +601,10 @@ router.get('/discover-page', async (req,res,next)=>{
         .catch(err => {
             console.log(err);
         });
-    
+
+    // UNCOMMENT LATER: Keep discover rank variable for now for debugging purposes
+    // await Goal.updateMany([{$unset:{discover_rank:""}}])
+
     for (var i = 0; i < goal_array.length; i++) {
         var current_goal_id = goal_array[i]._id;
         var followed = followed_array.includes(current_goal_id);
