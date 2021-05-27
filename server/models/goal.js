@@ -8,7 +8,7 @@ const goalSchema = new Schema({
     
     name: {
         type: String,
-        required: true
+        unique: true
     },
     description: {
         type: String,
@@ -28,7 +28,7 @@ const goalSchema = new Schema({
 
     follows: {
         type: Number, 
-        default: 0,
+        default: 1,
     }
 
 }, { timestamps: true });

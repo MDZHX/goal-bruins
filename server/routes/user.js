@@ -384,7 +384,7 @@ router.patch("/create-goal", async (req,res,next) =>{
         _id: mongoose.Types.ObjectId(),
         name: req.body.goal_name,
         description: req.body.goal_description,
-        authorId: user_id
+        authorId: user_id,
     })
 
     const goalId = goal._id;
@@ -401,7 +401,11 @@ router.patch("/create-goal", async (req,res,next) =>{
             });
         });
 
-    User.update({_id: user_id },{$push: {goals_created : goalId}})
+    User.update(
+      {_id: user_id },
+      {$push: {goals_created : goalId}},
+      {$push: {goals_followed : goalId}}
+      )
         .exec()
         .exec()
         .then((doc) => {
