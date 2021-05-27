@@ -20,10 +20,13 @@ function Signup(){
     axios
     .post("http://localhost:5000/user/new-user", data)
     .then(() => {
-      alert("Signup Successful! Please click login")
+      alert("Signup Successful! Redirecting to Login Page")
     })
     .catch(() => {
       alert("Username Already Exist!")
+    })
+    .then(()=>{
+      window.location.href = "/login";
     });
   }; 
 
