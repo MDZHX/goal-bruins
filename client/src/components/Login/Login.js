@@ -28,7 +28,7 @@ export default function Login(){
         )
         .then((res)=>{
             
-            let token_deserialized=JSON.stringify(res.data.data);
+            let token_deserialized=JSON.parse(res.data.data);
             //let status_deserialized=JSON.stringify(res.data.status);
             if(res.status===200){
               localStorage.setItem('token',token_deserialized);
