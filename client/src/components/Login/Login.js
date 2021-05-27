@@ -29,12 +29,10 @@ export default function Login(){
         .then((res)=>{
             
             let token_deserialized=JSON.stringify(res.data.data);
-            let status_deserialized=JSON.stringify(res.data.status);
-            
-              console.log(token_deserialized);
-              localStorage.setItem('token',token_deserialized)
-              console.log(localStorage.getItem('token'));
-            
+            //let status_deserialized=JSON.stringify(res.data.status);
+            if(res.status===200){
+              localStorage.setItem('token',token_deserialized);
+            }
             
         });
       }; 
