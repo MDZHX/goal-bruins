@@ -38,12 +38,16 @@ function Nav(props) {
         </nav>
         <ul className="app-header-icon-group">
           <li>
-            {/* <IconButton icon={"fas fa-power-off"} onClick={()=>logout}/> */}
-            <button onClick={()=>{
+            <IconButton icon={"fas fa-power-off"} onClick={()=>{
               localStorage.removeItem('token');
               alert("Logging you out! Redirecting...");
               window.location='/signup';
-            }}>logout</button>
+            }}/>
+            {/* // <button onClick={()=>{
+            //   localStorage.removeItem('token');
+            //   alert("Logging you out! Redirecting...");
+            //   window.location='/signup';
+            // }}>logout</button> */}
           </li>
         </ul>
       </div>
