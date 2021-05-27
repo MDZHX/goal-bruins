@@ -14,7 +14,7 @@ function Nav(props) {
       <div className="app-header-container">
         <div className="app-header-logo">
           {/* TODO: Change logo source */}
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/discover" style={{ textDecoration: 'none' }}>
             <LogoButton logo={"./logo192.png"} alt={"logo"} text={"Goal Bruins"} />
           </Link>
         </div>

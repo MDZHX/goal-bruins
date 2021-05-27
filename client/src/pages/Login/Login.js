@@ -25,7 +25,7 @@ function Login(){
         if(res.status){
           localStorage.setItem('token',token_deserialized)
           console.log(localStorage.getItem('token'));
-          window.location.href = "/";
+          window.location.href = "/discover";
         }
     })
     .catch(()=>{
