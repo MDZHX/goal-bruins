@@ -494,7 +494,7 @@ router.patch('/show-followed', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
@@ -542,7 +542,7 @@ router.get('/show-liked', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
@@ -594,7 +594,7 @@ router.get('/show-created', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
