@@ -146,7 +146,7 @@ router.patch("/create-goal", async (req,res,next) =>{
     });
 
     
-     User.update({_id: user_id },  {$push: {goals_created : goalId, goals_followed : goalId}})
+     User.updateOne({_id: user_id },  {$push: {goals_created : goalId, goals_followed : goalId}})
         .exec()
         .catch((err) => {
             console.log(err);
@@ -198,7 +198,7 @@ router.patch("/follow-goal", async (req,res,next) =>{
         })
 
     if(!already_followed){
-        User.update(
+        User.updateOne(
             {_id: user_id },
             {$push: {goals_followed : req.body.goalId}}
         )
@@ -223,7 +223,7 @@ router.patch("/follow-goal", async (req,res,next) =>{
             })
         })
 
-        Goal.update({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,0)+1}})      //increment the number of likes
+        Goal.updateOne({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,0)+1}})      //increment the number of likes
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -264,7 +264,7 @@ router.patch("/unfollow-goal", async (req,res,next) =>{
 
 
     if(already_followed){
-        User.update(
+        User.updateOne(
             {_id: user_id },
             {$pull: {goals_followed : req.body.goalId}}
         )
@@ -289,7 +289,7 @@ router.patch("/unfollow-goal", async (req,res,next) =>{
             })
         })
 
-        Goal.update({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,1)-1}})      //increment the number of likes
+        Goal.updateOne({_id:req.body.goalId}, {$set:{follows:Math.max(cur_follows,1)-1}})      //increment the number of likes
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -333,7 +333,7 @@ router.patch("/like-goal", async (req,res,next) =>{
     
     if(!already_liked){
 
-        User.update(
+        User.updateOne(
             {_id: user_id },
             {$push: {goals_liked : req.body.goalId}}
         )
@@ -359,7 +359,7 @@ router.patch("/like-goal", async (req,res,next) =>{
         })
 
 
-        Goal.update({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,0)+1}})      //increment the number of likes
+        Goal.updateOne({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,0)+1}})      //increment the number of likes
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -403,7 +403,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
 
 
     if(already_liked){
-        User.update(
+        User.updateOne(
             {_id: user_id },
             {$pull: {goals_liked : req.body.goalId}}  
         )
@@ -429,7 +429,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
             })
         })
     
-        Goal.update({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,1)-1}})
+        Goal.updateOne({_id:req.body.goalId}, {$set:{likes:Math.max(cur_likes,1)-1}})
         .exec()
         .then((doc) => {
             console.log(doc);
@@ -448,12 +448,6 @@ router.patch("/unlike-goal", async (req,res,next) =>{
     }
     
 });
-
-
-
-
-
-
 
 
 
@@ -500,7 +494,7 @@ router.patch('/show-followed', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
@@ -548,7 +542,7 @@ router.get('/show-liked', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
@@ -600,7 +594,7 @@ router.get('/show-created', async (req,res,next)=>{
                 console.log(err);
             })
     }
-
+    result_array.reverse();
     console.log(result_array);
     res.send(result_array);
 });
@@ -647,7 +641,7 @@ router.get('/discover-page', async (req,res,next)=>{
         });
 
     // UNCOMMENT LATER: Keep discover rank variable for now for debugging purposes
-    // await Goal.updateMany([{$unset:{discover_rank:""}}])
+    // await Goal.updateMany({$unset:{discover_rank:""}})
 
     for (var i = 0; i < goal_array.length; i++) {
         var current_goal_id = goal_array[i]._id;
