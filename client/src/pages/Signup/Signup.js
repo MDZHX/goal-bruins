@@ -22,11 +22,8 @@ function Signup(){
     .then(() => {
       alert("Signup Successful! Please click login")
     })
-    .catch((err) => {
-      console.log(err);
-      if (err.code === 500) {
-        alert("Username already exists!");
-      }
+    .catch(() => {
+      alert("Username Already Exist!")
     });
   }; 
 
