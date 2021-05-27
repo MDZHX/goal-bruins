@@ -92,7 +92,63 @@ router.post('/login', async (req, res) => {
 })
 
 
+router.patch("/create-goal", async (req,res,next) =>{
+    /*
+    required body elements:
+        jwt_token
+        goal_name
+        goal_description
+    procedure:
+        add a goal to the goal collection, also add it to the user's goals_created array
 
+    Tested------------------------Yes!
+    */
+    const user_id = jwt_userId(req.body.jwt_token);
+
+    const goal = new Goal({
+        _id: mongoose.Types.ObjectId(),
+        name: req.body.goal_name,
+        description: req.body.goal_description,
+        authorId: user_id,
+    })
+
+    const goalId = goal._id;
+
+
+
+    await goal.save(function(err) {
+      if (err) {
+          console.log('Error!');
+          if (err.code === 11000) {
+          console.log('Goal with the same name already exist!');
+          return res.status(500).send(
+              { 
+                  succes: false, 
+                  message: 'Goal with the same name already exist!' 
+              });
+        }
+        return res.status(500).send(err);
+      };
+
+      goal_successfully_created = true;
+
+      res.json({
+        success: true
+      });
+    });
+
+    if(goal_successfully_created){
+      User.update({_id: user_id },  {$push: {goals_created : goalId}},  {$push: {goals_followed : goalId}})
+        .exec()
+        .then((doc) => {
+            res.send(doc)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+    
+});
 
 router.patch("/follow-goal", async (req,res,next) =>{
     /*
@@ -367,54 +423,7 @@ router.patch("/unlike-goal", async (req,res,next) =>{
 
 
 
-router.patch("/create-goal", async (req,res,next) =>{
-    /*
-    required body elements:
-        jwt_token
-        goal_name
-        goal_description
-    procedure:
-        add a goal to the goal collection, also add it to the user's goals_created array
 
-    Tested------------------------Yes!
-    */
-    const user_id = jwt_userId(req.body.jwt_token);
-
-    const goal = new Goal({
-        _id: mongoose.Types.ObjectId(),
-        name: req.body.goal_name,
-        description: req.body.goal_description,
-        authorId: user_id,
-    })
-
-    const goalId = goal._id;
-
-    goal.save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
-
-    User.update(
-      {_id: user_id },
-      {$push: {goals_created : goalId}},
-      {$push: {goals_followed : goalId}}
-      )
-        .exec()
-        .exec()
-        .then((doc) => {
-            res.send(doc)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-});
 
 
 
