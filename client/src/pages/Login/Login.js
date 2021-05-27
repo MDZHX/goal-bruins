@@ -12,7 +12,7 @@ function Login(){
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    
     axios
     .post(
       'http://localhost:5000/user/login', 
@@ -22,10 +22,15 @@ function Login(){
     .then((res)=>{
         let token_deserialized=JSON.stringify(res.data.data);
         // let status_deserialized=JSON.stringify(res.data.status);
-        // TODO: handle errors
-        console.log(token_deserialized);
-        localStorage.setItem('token',token_deserialized)
-        console.log(localStorage.getItem('token'));
+        if(res.status){
+          localStorage.setItem('token',token_deserialized)
+          console.log(localStorage.getItem('token'));
+          window.location.href = "/";
+        }
+    })
+    .catch(()=>{
+      localStorage.clear();
+      alert("Incorrect Password/Username!");
     });
   };
 

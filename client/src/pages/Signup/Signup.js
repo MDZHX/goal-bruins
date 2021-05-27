@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-
+import {Link} from 'react-router-dom'
 import "./Signup.css";
 
 function Signup(){
@@ -22,11 +22,8 @@ function Signup(){
     .then(() => {
       alert("Signup Successful! Please click login")
     })
-    .catch((err) => {
-      console.log(err);
-      if (err.code === 500) {
-        alert("Username already exists!");
-      }
+    .catch(() => {
+      alert("Username Already Exist!")
     });
   }; 
 
@@ -42,7 +39,11 @@ function Signup(){
       <input {...register("password", { required: true }) } placeholder="Password" type="password"/>
       {errors.password && <span className="error-message">This field is required</span>}
 
-      <input type="submit" className="button"/>
+      {/* <input type="submit" className="button" /> */}
+      <button className="button">Register</button>
+      <Link to="/login">
+        <button className="button">Login</button>
+      </Link>
     </form>
   );
 }
