@@ -39,7 +39,7 @@ function FollowButton(props) {
 function Goal(props) {
   const [liked, setLiked] = useState(props.liked);
   const [followed, setFollowed] = useState(props.followed);
-  const [likes, setLikes] = useState(0);
+  const [likes, setLikes] = useState(props.likes);
 
   const toggleLike = () => {
     console.log("Toggle like status", liked);
