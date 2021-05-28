@@ -20,10 +20,10 @@ function Login(){
     )
     .then((res) => {
       let token_deserialized=JSON.stringify(res.data.data);
-      // let status_deserialized=JSON.stringify(res.data.status);
       if(res.status){
         localStorage.setItem('token',token_deserialized);
-        console.log(localStorage.getItem('token'));
+        localStorage.setItem('username',data.username);
+        //console.log(localStorage.getItem('token'));
         window.location.href = "/discover";
       }
     })

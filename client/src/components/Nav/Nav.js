@@ -37,9 +37,13 @@ function Nav({ fetchSearchResults }) {
           </div>
         </nav>
         <ul className="app-header-icon-group">
+
+          <li className="user-name">
+            Hello! {localStorage.getItem("username")}
+          </li>
           <li>
             <IconButton icon={"fas fa-power-off"} onClick={()=>{
-              localStorage.removeItem('token');
+              localStorage.clear();
               alert("Logging you out! Redirecting...");
               window.location='/signup';
             }}/>
@@ -49,6 +53,7 @@ function Nav({ fetchSearchResults }) {
             //   window.location='/signup';
             // }}>logout</button> */}
           </li>
+          
         </ul>
       </div>
     </header>
