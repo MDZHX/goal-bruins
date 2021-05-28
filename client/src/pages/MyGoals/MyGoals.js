@@ -14,16 +14,15 @@ function MyGoals() {
   // const [displayOption,setDisplayOption] = useState([false,false]);//first option: archieved, second: today
   
   useEffect(() => {
-    async function fetchFollowedGoals() {
-      const result = await axios
-      .patch('http://localhost:5000/user/show-followed', { jwt_token: JSON.parse(localStorage.getItem("token")) })
-      .catch((e) => console.log(e));
-
-      console.log("Fetched followed goals", result);
-      if (result)      
-        setUserGoals(result.data);
-    }
-    fetchFollowedGoals();
+    axios
+    .patch('http://localhost:5000/user/show-followed', { jwt_token: JSON.parse(localStorage.getItem("token")) })
+    .then((result) => {
+      console.log("Fetched followed goals", result);    
+      setUserGoals(result.data);
+    })
+    .catch((error) => {
+      alert(error);
+    });
   }, []);
 
   const createGoal = (name, description, setName, setDescription) => {
