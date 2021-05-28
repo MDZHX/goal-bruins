@@ -26,7 +26,7 @@ function App() {
 
   const fetchSearchResults = (searchWord) => {
     axios
-    .post('http://localhost:5000/user/search-page', { jwt_token: JSON.parse(localStorage.getItem("token")), goal_name: searchWord })
+    .post('http://localhost:5000/user/search-page', { jwt_token: JSON.parse(localStorage.getItem("token")), keyword: searchWord })
     .then((results) => {
       setSearchResults(results.data);
     })
