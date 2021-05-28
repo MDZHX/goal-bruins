@@ -609,23 +609,27 @@ router.post('/discover-page', async (req,res,next)=>{
     /*
     required body elements:
         jwt_token
+        history: a list of goals that have already been passed
     procedure:
         rank all the goals in the database by the number of likes they have, return the top 20 liked goals
 
     Tested------------------------Yes!
     */
     const user_id = jwt_userId(req.body.jwt_token);
+    const history_ids = req.body.history.map(function(id) { return mongoose.Types.ObjectId(id); });
 
     goal_array = [];
     result_array = [];
     followed_array = [];
     liked_array = [];
+    follow_ids = [];
 
     await User.findById(user_id)
         .exec()
         .then(doc =>{
             followed_array = doc.goals_followed;
             liked_array = doc.goals_liked;
+            follow_ids = followed_array.map(function(id) { return mongoose.Types.ObjectId(id); });
         })
         .catch(err => {
             console.log(err);
@@ -634,8 +638,8 @@ router.post('/discover-page', async (req,res,next)=>{
     // Create a temp variable "discover_rank" to select the goals that go on the top
     await Goal.updateMany([
         {$addFields:{discover_rank:{$add: ["$follows", "$follows", "$likes"]}}}])
-
-    await Goal.find()
+      
+    await Goal.find({_id: {$nin:follow_ids.concat(history_ids)}})
         .sort([['discover_rank',-1]])
         .limit(20).exec()
         .then(result => {
