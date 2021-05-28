@@ -16,6 +16,9 @@ function MyGoalOptionBar(props){
     const [add, setAdd] = useState(false);
     const [addContent, setAddContent]=useState(["","",""]);
    
+    //f(props.data.length>0)
+        //console.log("data",props.data[0].props["name"][0]);
+
 
     function sort(data,type){
         if(type==="fl")
@@ -27,6 +30,8 @@ function MyGoalOptionBar(props){
                 else
                     return 1;
             });
+
+            console.log("tempData",tempData);
             props.onChange(0,tempData);
         }
 
@@ -81,7 +86,7 @@ function MyGoalOptionBar(props){
         if(!add)
             return(
                 <div className="add-goal-div">
-                <Button onClick={()=>{setAdd(true);}}>
+                <Button onClick={()=>{!props.displayOption[0]&&!props.displayOption[1]? setAdd(true):setAdd(false)}}>
                     <div className="add-goal-container">
                          <span className="add-goal-text">Add Goals</span>
                     </div>

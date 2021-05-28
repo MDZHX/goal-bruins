@@ -4,14 +4,14 @@ import axios from 'axios'
 import Nav from '../../components/Nav/Nav';
 import Goal from '../../components/Goal/Goal'
 import CreateGoal from '../../components/CreateGoal/CreateGoal';
-// import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
+import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
 // import MyGoal from '../../components/MyGoal/MyGoal'
 import './MyGoals.css'
 
 
 function MyGoals({ fetchSearchResults }) {
   const [userGoals, setUserGoals] = useState([]);
-  // const [displayOption,setDisplayOption] = useState([false,false]);//first option: archieved, second: today
+  const [displayOption,setDisplayOption] = useState([false,false]);//first option: archieved, second: today
   
   useEffect(() => {
     axios
@@ -47,82 +47,97 @@ function MyGoals({ fetchSearchResults }) {
     setUserGoals(userGoals.filter((goal) => goal._id !== id));
   }
 
-  const userGoalList = userGoals.map(goal =>
-    <Goal
-      key={goal._id}
-      id={goal._id}
-      name={goal.name}
-      desc={goal.description}
-      likes={goal.likes}
-      liked={goal.liked}
-      followed={goal.followed}
-      removeGoal={removeGoal}
-    />
-  );
+
 
   //op:0 to set Goals, 1 to set display option (archived?Today?All?)
-  // function setPersonalGoal(op,newVal){ 
-  //   if(op===0){
-  //     const diff = newVal.filter(item=>!userGoals.includes(item));
-  //     if(diff.length >0)
-  //     {
-  //       for(var i =0; i<diff.length; i++){
-  //         axios.patch('http://localhost:5000/user/create-goal', {jwt_token:JSON.parse(localStorage.getItem("token")) , goal_name:diff[i].name,goal_description:diff[i].description}).catch((e)=>{console.log(e)});
-  //       }
-  //     }
-  //     setUserGoals(newVal);
-  //   }
-  //   else
-  //     setDisplayOption(newVal);
-  // }
+  function setPersonalGoal(op,newVal){ 
+    if(op===0){
+      const existingName = userGoals.map((goal)=>(goal["name"]));
+      const diff = newVal.filter(item=>!existingName.includes(item["name"]));
+      if(diff.length >0)
+      {
+        for(var i =0; i<diff.length; i++){
+          //axios.patch('http://localhost:5000/user/create-goal', {jwt_token:JSON.parse(localStorage.getItem("token")) , goal_name:diff[i].name,goal_description:diff[i].description}).catch((e)=>{console.log(e)});
+          createGoal(diff[i].name,diff[i].description);//Is this correct???
+        }
+      }
+      setUserGoals([...newVal]);
+      
+    }
+    else
+      setDisplayOption(newVal);
+  }
   
-  // const userGoalList = userGoals.map((goal)=>{
-  //   const goalBody = 
-  //       <MyGoal 
-  //           id={goal.id}
-  //           name={goal.name} 
-  //           description={goal.description} 
-  //           onChange={setPersonalGoal}
-  //           data = {userGoals}>
-  //       </MyGoal>;
-  //   if(!displayOption[1]) //Show all
-  //    return (goalBody);
-  //   else //Show only goals that are updated today
-  //   {
-  //       var today = new Date();
-  //       var month = today.getMonth()+1;
-  //       var day = today.getDate();
-  //       if(month<10)
-  //         month = "0"+month.toString();
-  //       if(day <10 && day.toString[0]!="0")
-  //         day = "0" + month.toString();
-  //       var date = today.getFullYear()+'-'+month+'-'+day;
-  //       if(goal.updatedAt==undefined)
-  //           return (goalBody);
-  //       var updateDate = goal.updatedAt.slice(0,10);
-  //       if(date===updateDate)
-  //           return (goalBody);
-  //    }
+  function currentDate(){
+    var today = new Date();
+    var month = today.getMonth()+1;
+    var day = today.getDate();
+    if(month<10)
+      month = "0"+month.toString();
+    if(day <10 && day.toString[0]!="0")
+      day = "0" + month.toString();
+    var date = today.getFullYear()+'-'+month+'-'+day;
+    return date;
+  }
+
+  const userGoalList = userGoals.map((goal)=>{
+    const goalBody = 
+      <Goal
+        key={goal._id}
+        id={goal._id}
+        name={goal.name}
+        desc={goal.description}
+        likes={goal.likes}
+        liked={goal.liked}
+        followed={goal.followed}
+        removeGoal={removeGoal}
+     />
+    if(!displayOption[1] && !displayOption[0]) //Show all
+    {
+      if(goal.updatedAt===undefined)
+        return goalBody;
+      const date = currentDate();
+      const today = new Date(date);
+      const updateDate = new Date(goal.updatedAt.slice(0,10));
+      const diff = (today.getTime() - updateDate.getTime())/(1000*3600*24);
+      if (diff<=5)
+       return (goalBody);
+    }
+    else if(displayOption[0])
+    {
+      if(typeof goal.updatedAt==='undefined')
+        return goalBody;
+       const date = currentDate();
+       const today = new Date(date);
+       const updateDate = new Date(goal.updatedAt.slice(0,10));
+       const diff = (today.getTime() - updateDate.getTime())/(1000*3600*24);
+       if(diff>5)
+        return(goalBody);
+    }
+    else if(displayOption[1]) //Show only goals that are updated today
+    {
+        const date = currentDate();
+        if(goal.updatedAt==undefined)
+            return (goalBody);
+        var updateDate = goal.updatedAt.slice(0,10);
+        if(date===updateDate)
+            return (goalBody);
+   }
     
-  // });
+  });
 
-  // let returnContent = 
-  //    <>
-  //      <MyGoalOptionBar data={userGoals} onChange={setPersonalGoal}></MyGoalOptionBar>
-  //      <div>
-  //      {userGoalList}
-  //      </div>
-  //   </>;
-
+  let returnContent = 
+     <>
+       <MyGoalOptionBar data={userGoals} onChange={setPersonalGoal} displayOption={displayOption}></MyGoalOptionBar>
+       <div>
+        {userGoalList}
+       </div>
+    </>;
   return (
     <>
       <Nav fetchSearchResults={fetchSearchResults} />
-      {/* TODO: Modify the option bar */}
-      {/* <MyGoalOptionBar data={userGoalList} onChange={setPersonalGoal} /> */}
-      <CreateGoal createGoal={createGoal} />
-      <div>
-        {userGoalList}
-      </div>
+      
+      {returnContent}
     </>
   );
 }
