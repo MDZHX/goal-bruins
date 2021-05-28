@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import {Link} from 'react-router-dom'
 import "./Signup.css";
 
 function Signup(){
@@ -20,13 +19,11 @@ function Signup(){
     axios
     .post("http://localhost:5000/user/new-user", data)
     .then(() => {
-      alert("Signup Successful! Redirecting to Login Page")
+      alert("Signup Successful! Redirecting to Login Page");
+      window.location.href = "/login";
     })
     .catch(() => {
       alert("Username Already Exists!")
-    })
-    .then(()=>{
-      window.location.href = "/login";
     });
   }; 
 
@@ -44,9 +41,8 @@ function Signup(){
 
       {/* <input type="submit" className="button" /> */}
       <button className="button">Register</button>
-      <Link to="/login">
+      
         <button className="button">Login</button>
-      </Link>
     </form>
   );
 }
