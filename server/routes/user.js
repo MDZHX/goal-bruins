@@ -673,9 +673,10 @@ router.post('/search-page', async (req,res,next)=>{
   /*
   required body elements:
       jwt_token
-      goal_name
+      keyword
   procedure:
-      return all the goals that are in the user's goals_liked array
+      return all the goals have contain keyword(case insensitive) in its name or its description
+             also return array that show whether such goals are liked or followed by user
 
   Tested------------------------Yes!
   */
@@ -698,7 +699,13 @@ router.post('/search-page', async (req,res,next)=>{
       })
   
 
-  await Goal.findOne({ name : req.body.goal_name})
+  await Goal.find({
+    $or: [
+      { name : new RegExp(req.body.keyword, 'i')},
+      { description: new RegExp(req.body.keyword, 'i')}
+    ]
+  }
+    )
       .lean()
       .then((doc)=>{
         result_array.push(doc);
