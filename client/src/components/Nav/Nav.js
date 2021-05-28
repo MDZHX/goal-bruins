@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import Button from '../Button/Button';
 import LogoButton from '../LogoButton/LogoButton';
 import IconButton from '../IconButton/IconButton';
-import Search from '../Search/Search';
+import SearchBar from '../SearchBar/SearchBar';
 
 import './Nav.css';
 
-function Nav(props) {
+function Nav({ fetchSearchResults }) {
   return (
     <header className="app-header">
       <div className="app-header-container">
@@ -33,7 +33,7 @@ function Nav(props) {
           </ul>
 
           <div className="search-bar">
-            <Search />
+            <SearchBar fetchSearchResults={fetchSearchResults} />
           </div>
         </nav>
         <ul className="app-header-icon-group">

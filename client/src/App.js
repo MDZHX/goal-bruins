@@ -1,15 +1,19 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Signup from './pages/Signup/Signup';
 import Login from './pages/Login/Login';
 import MyGoals from './pages/MyGoals/MyGoals';
 import Discover from './pages/Discover/Discover';
+import Search from './pages/Search/Search'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  const [searchResults, setSearchResults] = useState("");
+
   useEffect(()=>{
     if (window.location.href !== "http://localhost:3000/signup" &&
     window.location.href !== "http://localhost:3000/login" &&
@@ -18,16 +22,28 @@ function App() {
       alert("You are not Logged in! Redirecting...");
       window.location='/signup';
     }
-  })
+  });
+
+  const fetchSearchResults = (searchWord) => {
+    axios
+    .post('http://localhost:5000/user/search-page', { jwt_token: JSON.parse(localStorage.getItem("token")), goal_name: searchWord })
+    .then((results) => {
+      setSearchResults(results.data);
+    })
+    .catch((error) => {
+      alert(error);
+    })
+  }
 
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path ="/discover" component={Discover}/> 
-          <Route path="/mygoals" component={MyGoals}/>
-          <Route path ="/signup" component={Signup}/> 
-          <Route path ="/login" component={Login}/> 
+          <Route path ="/discover" component={Discover} fetchSearchResults={fetchSearchResults} /> 
+          <Route path="/mygoals" component={MyGoals} fetchSearchResults={fetchSearchResults} />
+          <Route path ="/signup" component={Signup} /> 
+          <Route path ="/login" component={Login} /> 
+          <Route path ="/search" component={Search} fetchSearchResults={fetchSearchResults} searchResults={searchResults} /> 
           <Route path ="/" component={Signup}/>
         </Switch>
       </Router>

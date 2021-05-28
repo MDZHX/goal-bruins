@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button'
 
 import './Discover.css'
 
-function Discover() {
+function Discover({ fetchSearchResults }) {
   const [goals, setGoals] = useState([]);
   const [itemRendered, setItemRendered] = useState(10);
 
@@ -52,7 +52,7 @@ function Discover() {
 
   return(
     <>
-      <Nav/>
+      <Nav fetchSearchResults={fetchSearchResults} />
       <div className="goals">
           {goalList}
           <AddGoalButton />

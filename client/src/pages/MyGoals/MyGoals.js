@@ -9,7 +9,7 @@ import CreateGoal from '../../components/CreateGoal/CreateGoal';
 import './MyGoals.css'
 
 
-function MyGoals() {
+function MyGoals({ fetchSearchResults }) {
   const [userGoals, setUserGoals] = useState([]);
   // const [displayOption,setDisplayOption] = useState([false,false]);//first option: archieved, second: today
   
@@ -34,11 +34,9 @@ function MyGoals() {
             goal_description: description,
           })
     .then(res => {
-      // TODO: error handling
-      console.log(res);
-      // setUserGoals([res.data].concat(userGoals));
-      // setName("");
-      // setDescription("");
+      setUserGoals([res.data].concat(userGoals));
+      setName("");
+      setDescription("");
     })
     .catch(err => {
       alert(err);
@@ -118,7 +116,7 @@ function MyGoals() {
 
   return (
     <>
-      <Nav />
+      <Nav fetchSearchResults={fetchSearchResults} />
       {/* TODO: Modify the option bar */}
       {/* <MyGoalOptionBar data={userGoalList} onChange={setPersonalGoal} /> */}
       <CreateGoal createGoal={createGoal} />

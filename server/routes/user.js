@@ -669,7 +669,7 @@ router.post('/discover-page', async (req,res,next)=>{
 
 
 
-router.get('/search-page', async (req,res,next)=>{
+router.post('/search-page', async (req,res,next)=>{
   /*
   required body elements:
       jwt_token
