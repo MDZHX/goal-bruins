@@ -18,14 +18,14 @@ function Login(){
       data, 
       { headers: {"content-type": "application/json"} }
     )
-    .then((res)=>{
-        let token_deserialized=JSON.stringify(res.data.data);
-        // let status_deserialized=JSON.stringify(res.data.status);
-        if(res.status){
-          localStorage.setItem('token',token_deserialized)
-          console.log(localStorage.getItem('token'));
-          window.location.href = "/discover";
-        }
+    .then((res) => {
+      let token_deserialized=JSON.stringify(res.data.data);
+      // let status_deserialized=JSON.stringify(res.data.status);
+      if(res.status){
+        localStorage.setItem('token',token_deserialized);
+        console.log(localStorage.getItem('token'));
+        window.location.href = "/discover";
+      }
     })
     .catch(()=>{
       localStorage.clear();
