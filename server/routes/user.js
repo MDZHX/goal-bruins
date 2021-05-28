@@ -600,7 +600,7 @@ router.get('/show-created', async (req,res,next)=>{
 });
 
 
-router.get('/discover-page', async (req,res,next)=>{
+router.post('/discover-page', async (req,res,next)=>{
     /*
     required body elements:
         jwt_token
