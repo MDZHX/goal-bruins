@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import {Link} from 'react-router-dom'
 import axios from 'axios';
 import "./Signup.css";
 
@@ -41,8 +42,9 @@ function Signup(){
 
       {/* <input type="submit" className="button" /> */}
       <button className="button">Register</button>
-      
+      <Link to="/login">
         <button className="button">Login</button>
+      </Link>
     </form>
   );
 }
