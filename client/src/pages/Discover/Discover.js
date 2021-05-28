@@ -11,33 +11,16 @@ function Discover() {
   const [goals, setGoals] = useState([]);
   const [itemRendered, setItemRendered] = useState(10);
 
-  useEffect(()=>{
-    async function fetchGoals() {
-      const result = await axios
-      .get('http://localhost:5000/goal/all-goals');
-      
-      // TODO: error handling
+  useEffect(() => {
+    axios
+    .post('http://localhost:5000/user/discover-page', { jwt_token: JSON.parse(localStorage.getItem("token")) })
+    .then((result) => {
       setGoals(result.data);
-    }
-
-    fetchGoals();
-  },[]);
-
-  // const [login, setLogin]=useState();
-
-  // const config={
-  //   header:{
-  //     Authorization:'Bearer'+ localStorage.getItem('token')
-  //   }
-  // };
-  // axios.get('http://localhost:5000/', config)
-  // .then(
-  //   (res)=>{
-  //     setLogin({
-  //       login:res.data
-  //     });
-  //   }
-  // )
+    })
+    .catch((error) => {
+      alert(error);
+    })
+  }, []);
 
   function expandList() {
     setItemRendered(itemRendered+4);
@@ -49,6 +32,9 @@ function Discover() {
       id={goal._id}
       name={goal.name}
       desc={goal.description}
+      likes={goal.likes}
+      liked={goal.liked}
+      followed={goal.followed}
     />
   );
 
@@ -69,7 +55,7 @@ function Discover() {
       <Nav/>
       <div className="goals">
           {goalList}
-          <AddGoalButton></AddGoalButton>
+          <AddGoalButton />
       </div>
     </>
   )

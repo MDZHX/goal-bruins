@@ -1,67 +1,116 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import Button from '../Button/Button';
 
 import "./Goal.css";
 
 function LikeButton(props) {
-  const [liked, setLiked] = useState(false);
   // TODO: Fix icon issue
-  const icon = liked ? "fas fa-heart" : "far fa-heart";
-  
-  const handleClick = () => {
-    setLiked(!liked);
-    props.onClick(liked);
-  }
+  const icon = props.liked ? "fas fa-heart" : "far fa-heart";
+  const text = props.liked ? "Unlike" : "Like";
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={props.toggleLike}>
       <div className="like-button-container">
         <i className={icon}></i>
         <span className="like-button-text">{props.likes}</span>
+        <span className="like-button-text">{text}</span>
       </div>
     </Button>
   );
 }
 
-function SubscribeButton(props) {
-  const [subscribed, setSubscribed] = useState(false);
+function FollowButton(props) {
   // TODO: Fix icon issue
-  const icon = subscribed ? "fas fa-plus-square" : "far fa-plus-square";
-  const text = subscribed ? "Remove from My Goals" : "Add to My Goals";
+  const icon = props.followed ? "fas fa-plus-square" : "far fa-plus-square";
+  const text = props.followed ? "Unfollow" : "Follow";
 
   return (
-    <Button onClick={() => {setSubscribed(!subscribed)}}>
-      <div className="subscribe-button-container">
+    <Button onClick={props.toggleFollow}>
+      <div className="follow-button-container">
         <i className={icon}></i>
-        <span className="subscribe-button-text">{text}</span>
+        <span className="follow-button-text">{text}</span>
       </div>
     </Button>
   );
 }
 
-function Goal({ id, name, desc }) {
+function Goal(props) {
+  const [liked, setLiked] = useState(props.liked);
+  const [followed, setFollowed] = useState(props.followed);
   const [likes, setLikes] = useState(0);
 
-  const likeClicked = (liked) => {
-    setLikes(liked ? likes - 1 : likes + 1);
+  const toggleLike = () => {
+    console.log("Toggle like status", liked);
+    console.log("Goal id is", props.id);
+    if (liked) {
+      axios.patch(
+        'http://localhost:5000/user/unlike-goal',
+        { jwt_token: JSON.parse(localStorage.getItem("token")), goalId: props.id }
+      )
+      .then(() => {
+        setLiked(false);
+        setLikes(likes - 1);
+      })
+      .catch(err => alert(err));
+    }
+    else {
+      axios.patch(
+        'http://localhost:5000/user/like-goal',
+        { jwt_token: JSON.parse(localStorage.getItem("token")), goalId: props.id }
+      )
+      .then(() => {
+        setLiked(true);
+        setLikes(likes + 1);
+      })
+      .catch(err => alert(err));
+    }
+  }
+
+  const toggleFollow = () => {
+    console.log("Toggle follow, current status", followed);
+    console.log("Goal id is", props.id);
+    if (followed) {
+      axios.patch(
+        'http://localhost:5000/user/unfollow-goal',
+        { jwt_token: JSON.parse(localStorage.getItem("token")), goalId: props.id }
+      )
+      .then(() => {
+        setFollowed(false);
+        if (props.removeGoal) {
+          props.removeGoal(props.id);
+        }
+      })
+      .catch(err => alert(err.message));
+    }
+    else {
+      axios.patch(
+        'http://localhost:5000/user/follow-goal',
+        { jwt_token: JSON.parse(localStorage.getItem("token")), goalId: props.id }
+      )
+      .then(() => {
+        setFollowed(true);
+      })
+      .catch(err => alert(err.message));
+    }
   }
 
   return (
     <div className="goal-card">
       <div className="goal-card-info">
         <div className="goal-card-text">
-          <h3>{name}</h3>
-          <p>{desc}</p>
+          <h3>{props.name}</h3>
+          <p>{props.desc}</p>
         </div>
         <ul className="goal-card-button-group">
           <li>
-            <LikeButton likes={likes} onClick={likeClicked} />
+            <LikeButton liked={liked} likes={likes} toggleLike={toggleLike} />
           </li>
         </ul>
       </div>
-      <div className="goal-card-subscribe">
-        <SubscribeButton />
+      <div className="goal-card-follow">
+        <FollowButton followed={followed} toggleFollow={toggleFollow} />
       </div>
     </div>
   );

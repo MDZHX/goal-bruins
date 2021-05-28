@@ -15,9 +15,8 @@ function CreateGoal({ createGoal }) {
   }
 
   const handleSubmit = (e) => {
-    console.log(111);
     e.preventDefault();
-    createGoal({ name, description }, setName, setDescription);
+    createGoal(name, description, setName, setDescription);
   }
 
   return (
