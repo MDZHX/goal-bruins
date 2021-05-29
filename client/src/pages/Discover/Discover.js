@@ -13,7 +13,7 @@ function Discover({ fetchSearchResults }) {
 
   useEffect(() => {
     axios
-    .post('http://localhost:5000/user/discover-page', { jwt_token: JSON.parse(localStorage.getItem("token")) })
+    .post('http://localhost:5000/user/discover-page', { jwt_token: JSON.parse(localStorage.getItem("token")), history:[]})
     .then((result) => {
       setGoals(result.data);
     })
@@ -23,10 +23,18 @@ function Discover({ fetchSearchResults }) {
   }, []);
 
   function expandList() {
-    setItemRendered(itemRendered+4);
+    axios
+    .post('http://localhost:5000/user/discover-page',{jwt_token:JSON.parse(localStorage.getItem("token")),history:[...goals]})
+    .then((result) => {
+      setGoals([...goals].concat(result.data));
+    })
+    .catch((error) => {
+      alert(error);
+    })
+    //setItemRendered(itemRendered+4);
   }
 
-  const goalList = goals.slice(0, itemRendered).map(goal =>
+  const goalList = goals.map(goal =>
     <Goal
       key={goal._id}
       id={goal._id}
