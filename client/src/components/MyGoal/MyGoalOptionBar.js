@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function Button(props) {
     return (
-      <button className="button" onClick={props.onClick}>
+      <button style={{backgroundColor:props.style}} className="button" onClick={props.onClick}>
         {props.children}
       </button>
     );
@@ -15,7 +15,6 @@ function Button(props) {
 function MyGoalOptionBar(props){
     const [add, setAdd] = useState(false);
     const [addContent, setAddContent]=useState(["","",""]);
-   
     //f(props.data.length>0)
         //console.log("data",props.data[0].props["name"][0]);
 
@@ -30,8 +29,6 @@ function MyGoalOptionBar(props){
                 else
                     return 1;
             });
-
-            console.log("tempData",tempData);
             props.onChange(0,tempData);
         }
 
@@ -63,9 +60,12 @@ function MyGoalOptionBar(props){
     }
     //>>>>>>>>>>>>>>>IF DATA STRUCTURE IS CHANGED, CHANGE THIS!<<<<<<<<<<<<<<<<<<<<<<
     function setNewGoal(){
-        if(addContent[0]==="")
+        if(addContent[0]===""||addContent[1]==="")
             return -1;
         var tempData=[...props.data];
+        const nameList = tempData.map((goal)=>{return goal["name"]});
+        if(nameList.includes(addContent[0]))
+            return -1;
         var tempId = 0;
         for(var i=0; i<tempData.length;i++){
             if(tempData[i].id>=tempId)
@@ -102,9 +102,8 @@ function MyGoalOptionBar(props){
                         
                         <input className="input" placeholder="Name" onChange={(e)=>{setAddContent([e.target.value,addContent[1],addContent[2]])}}></input>
                         <input className="input" placeholder="Description" onChange={(e)=>{setAddContent([addContent[0],e.target.value,addContent[2]])}}></input>
-                        <input className="input" placeholder="Date" onChange={(e)=>{setAddContent([addContent[0],addContent[1],e.target.value]);}}></input>
                         <Button>
-                            <span className="save-button" onClick={()=>{var i=setNewGoal();i===-1? alert("Name Cannot be Empty"):setAdd(false);}}>
+                            <span className="save-button" onClick={()=>{var i=setNewGoal();i===-1? alert("Invalid/repeated name/description"):setAdd(false); }}>
                                 Save
                             </span>
                         </Button>
@@ -119,16 +118,22 @@ function MyGoalOptionBar(props){
         }
     }
 
+    
+    var name = "";
+    if(!props.displayOption[0]&&!props.displayOption[1])
+        name ="ALL"
+    else if(props.displayOption[0])
+        name = "ARCHIVED"
+    else
+        name = "TODAY"
     return(
     <>
       <div className="my-goal-option-bar">
           <div>
-            {/* <button onClick={getGoal}>
-                dummy
-            </button> */}
-              <Button onClick={showAll}>All</Button>
-              <Button onClick={showToday}>Today</Button>
-              <Button onClick={showArchived}>Archived</Button>
+              <Button  onClick={showAll}>All</Button>
+              <Button  onClick={showToday}>Today</Button>
+              <Button  onClick={showArchived}>Archived</Button>
+              <Button > <h6 style={{backgroundColor:"#66ccff"}}>Showing:{name}</h6></Button>
           </div>
           <div>
               <select className="sorting-options" onChange={(e)=>{sort(props.data,e.target.value)}}>
