@@ -12,7 +12,7 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-  const [searchResults, setSearchResults] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(()=>{
     if (window.location.href !== "http://localhost:3000/signup" &&
@@ -28,7 +28,8 @@ function App() {
     axios
     .post('http://localhost:5000/user/search-page', { jwt_token: JSON.parse(localStorage.getItem("token")), keyword: searchWord })
     .then((results) => {
-      setSearchResults(results.data);
+      console.log(results);
+      setSearchResults(results.data[0]);
     })
     .catch((error) => {
       alert(error);
@@ -39,11 +40,11 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route path ="/discover" component={Discover} fetchSearchResults={fetchSearchResults} /> 
-          <Route path="/mygoals" component={MyGoals} fetchSearchResults={fetchSearchResults} />
+          <Route path ="/discover" render={(props) => <Discover {...props} fetchSearchResults={fetchSearchResults} />} /> 
+          <Route path="/mygoals" render={(props) => <MyGoals {...props} fetchSearchResults={fetchSearchResults} />} />
           <Route path ="/signup" component={Signup} /> 
           <Route path ="/login" component={Login} /> 
-          <Route path ="/search" component={Search} fetchSearchResults={fetchSearchResults} searchResults={searchResults} /> 
+          <Route path ="/search" render={(props) => <Search {...props} searchResults={searchResults} fetchSearchResults={fetchSearchResults} />} /> 
           <Route path ="/" component={Signup}/>
         </Switch>
       </Router>

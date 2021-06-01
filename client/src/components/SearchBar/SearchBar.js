@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import SubmitButton from '../SubmitButton/SubmitButton';
+import Button from '../Button/Button';
 
 import './SearchBar.css';
 
@@ -12,13 +12,8 @@ function SearchBar({ fetchSearchResults }) {
     setKeyword(e.target.value);
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetchSearchResults(keyword);
-  }
-
   return (
-    <form onSumbit={handleSubmit} className="search-form">
+    <form className="search-form">
       <input
         type="search"
         id="search-keyword"
@@ -29,11 +24,11 @@ function SearchBar({ fetchSearchResults }) {
         required
       />
       
-      <SubmitButton>
+      <Button onClick={() => { fetchSearchResults(keyword); }}>
         <Link to="/search" style={{ textDecoration: 'none' }}>
           <i className="fas fa-search"></i>
         </Link>
-      </SubmitButton>
+      </Button>
     </form>
   );
 }
