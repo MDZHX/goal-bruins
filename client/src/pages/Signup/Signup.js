@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {Link} from 'react-router-dom'
 import axios from 'axios';
-import "./Signup.css";
+import "./Form.css";
 
 function Signup(){
   const {
@@ -29,23 +29,27 @@ function Signup(){
   }; 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="user-form">
-      <h1>Signup</h1>
+    <body>
+      <form onSubmit={handleSubmit(onSubmit)} className="user-form">
+        <h1>Signup</h1>
 
-      <span>Name: </span>
-      <input {...register("username", { required: true }) } placeholder="Your Name"/>
-      {errors.username && <span className="error-message">This field is required</span>}
+        <span className="label">Name: </span>
+        <input {...register("username", { required: true }) } placeholder="Your Name"/>
+        {errors.username && <span className="error-message">This field is required</span>}
 
-      <span>Password: </span>
-      <input {...register("password", { required: true }) } placeholder="Password" type="password"/>
-      {errors.password && <span className="error-message">This field is required</span>}
+        <span className="label">Password: </span>
+        <input {...register("password", { required: true }) } placeholder="Password" type="password"/>
+        {errors.password && <span className="error-message">This field is required</span>}
 
-      {/* <input type="submit" className="button" /> */}
-      <button className="button">Register</button>
-      <Link to="/login">
-        <button className="button">Login</button>
-      </Link>
-    </form>
+        {/* <input type="submit" className="button" /> */}
+        <div className="buttons">
+          <button className="login-button">Register</button>
+          <Link to="/login">
+            <button className="login-button">Login</button>
+          </Link>
+        </div>
+      </form>
+    </body>
   );
 }
 

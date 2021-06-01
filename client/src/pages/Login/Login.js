@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 
-import "./Login.css";
+import "../Signup/Form.css";
 
 function Login(){
   const {
@@ -37,15 +37,15 @@ function Login(){
     <form onSubmit={handleSubmit(onSubmit)} className="user-form">
       <h1>Login</h1>
 
-      <span>Username: </span>
+      <span className="label">Username: </span>
       <input {...register("username", { required: true })} placeholder="Username"/>
       {errors.username && <span className="error-message">This field is required</span>}
 
-      <span>Password: </span>
+      <span className="label">Password: </span>
       <input {...register("password", { required: true }) } placeholder="Password" type="password"/>
       {errors.password && <span className="error-message">This field is required</span>}
-
-      <input type="submit" className="button"/>
+      
+      <button className="login-button-in-login" type="submit">Login</button>
 
     </form>
   );
