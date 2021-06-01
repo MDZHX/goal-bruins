@@ -9,29 +9,29 @@ import './Discover.css'
 
 function Discover({ fetchSearchResults }) {
   const [goals, setGoals] = useState([]);
-  const [itemRendered, setItemRendered] = useState(10);
 
   useEffect(() => {
     axios
     .post('http://localhost:5000/user/discover-page', { jwt_token: JSON.parse(localStorage.getItem("token")), history:[]})
-    .then((result) => {
+    .then(result => {
+      console.log("Fetched recommended goals", result);
       setGoals(result.data);
     })
-    .catch((error) => {
+    .catch(error => {
       alert(error);
     })
   }, []);
 
   function expandList() {
     axios
-    .post('http://localhost:5000/user/discover-page',{jwt_token:JSON.parse(localStorage.getItem("token")),history:[...goals]})
-    .then((result) => {
+    .post('http://localhost:5000/user/discover-page',{jwt_token:JSON.parse(localStorage.getItem("token")), history:[...goals]})
+    .then(result => {
+      console.log("Fetched more recommended goals", result);
       setGoals([...goals].concat(result.data));
     })
-    .catch((error) => {
+    .catch(error => {
       alert(error);
     })
-    //setItemRendered(itemRendered+4);
   }
 
   const goalList = goals.map(goal =>
@@ -46,16 +46,16 @@ function Discover({ fetchSearchResults }) {
     />
   );
 
-  function AddGoalButton(){
-    return(
-      <div >
+  function LoadMore() {
+    return (
+      <div>
         <Button onClick = {expandList}>
           <div className="expansion-button">
               Load More Goals...
           </div>
         </Button>
       </div>
-    )
+    );
   }
 
   return(
@@ -63,8 +63,8 @@ function Discover({ fetchSearchResults }) {
       <Nav fetchSearchResults={fetchSearchResults} />
       <div className="goals">
           {goalList}
-          <AddGoalButton />
       </div>
+      <LoadMore />
     </>
   )
 
