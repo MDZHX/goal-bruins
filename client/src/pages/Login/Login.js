@@ -21,6 +21,7 @@ function Login(){
     .then((res) => {
       let token_deserialized=JSON.stringify(res.data.data);
       if(res.status){
+        localStorage.clear()
         localStorage.setItem('token',token_deserialized);
         localStorage.setItem('username',data.username);
         //console.log(localStorage.getItem('token'));
