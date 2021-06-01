@@ -53,7 +53,7 @@ function MyGoals({ fetchSearchResults }) {
     if (op === 0) {
       const existingName = userGoals.map(goal=>(goal["name"]));
       const diff = newVal.filter(item=>!existingName.includes(item["name"]));
-      if(diff.length >0)
+      if(diff.length > 0)
       {
         for(var i =0; i<diff.length; i++){
           //axios.patch('http://localhost:5000/user/create-goal', {jwt_token:JSON.parse(localStorage.getItem("token")) , goal_name:diff[i].name,goal_description:diff[i].description}).catch((e)=>{console.log(e)});
