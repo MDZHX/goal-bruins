@@ -4,23 +4,23 @@ import axios from 'axios'
 import Nav from '../../components/Nav/Nav';
 import Goal from '../../components/Goal/Goal'
 import CreateGoal from '../../components/CreateGoal/CreateGoal';
-import MyGoalOptionBar from '../../components/MyGoal/MyGoalOptionBar.js'
+import MyGoalOptionBar from '../../components/MyGoalsOptionBar/MyGoalOptionBar'
 // import MyGoal from '../../components/MyGoal/MyGoal'
 import './MyGoals.css'
 
 
 function MyGoals({ fetchSearchResults }) {
   const [userGoals, setUserGoals] = useState([]);
-  const [displayOption,setDisplayOption] = useState([false,false]);//first option: archieved, second: today
+  const [displayOption, setDisplayOption] = useState([false, false]);// first option: archived, second: today
   
   useEffect(() => {
     axios
     .patch('http://localhost:5000/user/show-followed', { jwt_token: JSON.parse(localStorage.getItem("token")) })
-    .then((result) => {
-      console.log("Fetched followed goals", result);    
+    .then(result => {
+      console.log("Fetched followed goals", result);
       setUserGoals(result.data);
     })
-    .catch((error) => {
+    .catch(error => {
       alert(error);
     });
   }, []);
@@ -47,12 +47,11 @@ function MyGoals({ fetchSearchResults }) {
     setUserGoals(userGoals.filter((goal) => goal._id !== id));
   }
 
-
-
   //op:0 to set Goals, 1 to set display option (archived?Today?All?)
-  function setPersonalGoal(op,newVal){ 
-    if(op===0){
-      const existingName = userGoals.map((goal)=>(goal["name"]));
+  function setPersonalGoal(op, newVal) {
+    console.log("op: " + op + "; newVal", newVal);
+    if (op === 0) {
+      const existingName = userGoals.map(goal=>(goal["name"]));
       const diff = newVal.filter(item=>!existingName.includes(item["name"]));
       if(diff.length >0)
       {
@@ -69,18 +68,18 @@ function MyGoals({ fetchSearchResults }) {
   }
   
   function currentDate(){
-    var today = new Date();
-    var month = today.getMonth()+1;
-    var day = today.getDate();
-    if(month<10)
+    let today = new Date();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    if (month < 10)
       month = "0"+month.toString();
-    if(day <10 && day.toString[0]!="0")
+    if (day < 10 && day.toString[0] !== "0")
       day = "0" + month.toString();
-    var date = today.getFullYear()+'-'+month+'-'+day;
+    const date = today.getFullYear() + '-' + month + '-' + day;
     return date;
   }
 
-  const userGoalList = userGoals.map((goal)=>{
+  const userGoalList = userGoals.map((goal) => {
     const goalBody = 
       <Goal
         key={goal._id}
@@ -117,7 +116,7 @@ function MyGoals({ fetchSearchResults }) {
     else if(displayOption[1]) //Show only goals that are updated today
     {
         const date = currentDate();
-        if(goal.updatedAt==undefined)
+        if(goal.updatedAt === undefined)
             return (goalBody);
         var updateDate = goal.updatedAt.slice(0,10);
         if(date===updateDate)

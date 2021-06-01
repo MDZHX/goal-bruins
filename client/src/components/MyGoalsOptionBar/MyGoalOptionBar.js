@@ -1,8 +1,6 @@
 import './MyGoalOptionBar.css'
 //import Button from '../Button/Button';
-import {useState} from 'react';
-import axios from 'axios';
-
+import React, { useState } from 'react';
 
 function Button(props) {
     return (
