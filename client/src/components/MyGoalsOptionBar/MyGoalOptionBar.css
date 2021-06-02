@@ -8,15 +8,15 @@
     padding: 20px;
     margin: 10px auto;
     border-radius: 10px;
-      
+    
     background-color: rgb(255, 255, 255);
     box-shadow: 0 3px 3px rgb(18 18 18 / 10%);
 }
 
 .button{
-    font-size: large;
+    font-size: medium;
     display: inline-block;
-    margin-left: 30px;
+    margin-left: 25px;
     border: none;
     border-radius: 2px;
     background-color: transparent;
@@ -72,4 +72,10 @@
     background-color:#3374e3;
     box-shadow: 0 3px 3px rgb(18 18 18 / 10%);
 
+}
+
+
+.now-showing{
+    font-size: xx-small;
+    background-color: #66ccff;
 }

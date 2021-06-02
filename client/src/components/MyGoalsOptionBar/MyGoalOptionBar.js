@@ -45,6 +45,10 @@ function MyGoalOptionBar(props) {
   }
 
   function showArchived() {
+    if(props.data.length==0){
+      alert("Nothing created within 10 days/loaded!");
+      return;
+    }
     props.onChange(1,[1, 0]);
   }
 
@@ -53,6 +57,10 @@ function MyGoalOptionBar(props) {
   }
 
   function showToday() {
+    if(props.data.length==0){
+      alert("Nothing created today/loaded!");
+      return;
+    }
     props.onChange(1,[0, 1]);
   }
 
@@ -122,18 +130,18 @@ function MyGoalOptionBar(props) {
   if(!props.displayOption[0]&&!props.displayOption[1])
     name = "ALL";
   else if(props.displayOption[0])
-    name = "ARCHIVED";
+    name = "created in 10 days";
   else
-    name = "TODAY";
-
+    name = "Created Today";
+//          
   return (
     <>
       <div className="my-goal-option-bar">
         <div>
           <Button onClick={showAll}>All</Button>
-          <Button onClick={showToday}>Today</Button>
-          <Button onClick={showArchived}>Archived</Button>
-          <Button><h5 style={{ backgroundColor:"#66ccff" }}>Showing: {name}</h5></Button>
+          <Button onClick={showToday}>Created Today</Button>
+          <Button onClick={showArchived}>Within 10 Days</Button>
+          <Button><h8 className="now-showing">{name}</h8></Button>
         </div>
         <div>
           <select className="sorting-options" onChange={(e)=>{sort(props.data,e.target.value)}}>

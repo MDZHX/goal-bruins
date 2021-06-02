@@ -25,7 +25,7 @@ function MyGoals({ fetchSearchResults }) {
     });
   }, []);
 
-  const createGoal = (name, description, setName, setDescription) => {
+  const createGoal = (name, description) => {
     axios
     .patch('http://localhost:5000/user/create-goal',
           {
@@ -35,8 +35,6 @@ function MyGoals({ fetchSearchResults }) {
           })
     .then(res => {
       setUserGoals([res.data].concat(userGoals));
-      setName("");
-      setDescription("");
     })
     .catch(err => {
       alert(err);
@@ -46,22 +44,18 @@ function MyGoals({ fetchSearchResults }) {
   const removeGoal = (id) => {
     setUserGoals(userGoals.filter((goal) => goal._id !== id));
   }
-
   //op:0 to set Goals, 1 to set display option (archived?Today?All?)
   function setPersonalGoal(op, newVal) {
-    console.log("op: " + op + "; newVal", newVal);
     if (op === 0) {
       const existingName = userGoals.map(goal=>(goal["name"]));
       const diff = newVal.filter(item=>!existingName.includes(item["name"]));
       if(diff.length > 0)
       {
         for(var i =0; i<diff.length; i++){
-          //axios.patch('http://localhost:5000/user/create-goal', {jwt_token:JSON.parse(localStorage.getItem("token")) , goal_name:diff[i].name,goal_description:diff[i].description}).catch((e)=>{console.log(e)});
-          createGoal(diff[i].name,diff[i].description);//Is this correct???
+          createGoal(diff[i].name,diff[i].description);
         }
       }
       setUserGoals([...newVal]);
-      
     }
     else
       setDisplayOption(newVal);
@@ -104,27 +98,26 @@ function MyGoals({ fetchSearchResults }) {
     }
     else if(displayOption[0])
     {
-      if(typeof goal.updatedAt==='undefined')
-        return goalBody;
+      if(goal.updatedAt=== undefined)
+        return;
        const date = currentDate();
        const today = new Date(date);
-       const updateDate = new Date(goal.updatedAt.slice(0,10));
+       const updateDate = new Date(goal.createdAt.slice(0,10));
        const diff = (today.getTime() - updateDate.getTime())/(1000*3600*24);
-       if(diff>5)
+       if(diff<=10)
         return(goalBody);
     }
     else if(displayOption[1]) //Show only goals that are updated today
-    {
-        const date = currentDate();
-        console.log(date);
-        if(goal.updatedAt === undefined)
+    {   
+         const date = currentDate();
+        if(goal.createdAt === undefined)
             return (goalBody);
-        var updateDate = goal.updatedAt.slice(0,10);
-        console.log(goal.updatedAt.slice(0,10));
+        var updateDate = goal.createdAt.slice(0,10);
         if(date===updateDate)
+        {
             return (goalBody);
-   }
-    
+        }
+   }  
   });
 
   let returnContent = 
