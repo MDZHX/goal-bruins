@@ -22,9 +22,11 @@ function Discover({ fetchSearchResults }) {
     })
   }, []);
 
+  
   function expandList() {
+    const idList = goals.map((goal)=>{return goal._id});
     axios
-    .post('http://localhost:5000/user/discover-page',{jwt_token:JSON.parse(localStorage.getItem("token")), history:[...goals]})
+    .post('http://localhost:5000/user/discover-page',{jwt_token:JSON.parse(localStorage.getItem("token")), history:idList})
     .then(result => {
       console.log("Fetched more recommended goals", result);
       setGoals([...goals].concat(result.data));

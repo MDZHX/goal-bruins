@@ -616,7 +616,7 @@ router.post('/discover-page', async (req,res,next)=>{
     Tested------------------------Yes!
     */
     const user_id = jwt_userId(req.body.jwt_token);
-    const history_ids = req.body.history.map((id)=>{return mongoose.Types.ObjectId(id["_id"]) });
+    const history_ids = req.body.history.map((id)=>{return mongoose.Types.ObjectId(id) });
     goal_array = [];
     result_array = [];
     followed_array = [];
