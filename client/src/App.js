@@ -29,7 +29,7 @@ function App() {
     .post('http://localhost:5000/user/search-page', { jwt_token: JSON.parse(localStorage.getItem("token")), keyword: searchWord })
     .then((results) => {
       console.log(results);
-      setSearchResults(results.data[0]);
+      setSearchResults(results.data);
     })
     .catch((error) => {
       alert(error);

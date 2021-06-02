@@ -13,7 +13,7 @@ function SearchBar({ fetchSearchResults }) {
   }
 
   return (
-    <form className="search-form">
+    <form onSubmit={e => e.preventDefault()} className="search-form">
       <input
         type="search"
         id="search-keyword"
