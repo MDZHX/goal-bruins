@@ -74,7 +74,7 @@ function MyGoals({ fetchSearchResults }) {
     if (month < 10)
       month = "0"+month.toString();
     if (day < 10 && day.toString[0] !== "0")
-      day = "0" + month.toString();
+      day = "0" + day.toString();
     const date = today.getFullYear() + '-' + month + '-' + day;
     return date;
   }
@@ -116,9 +116,11 @@ function MyGoals({ fetchSearchResults }) {
     else if(displayOption[1]) //Show only goals that are updated today
     {
         const date = currentDate();
+        console.log(date);
         if(goal.updatedAt === undefined)
             return (goalBody);
         var updateDate = goal.updatedAt.slice(0,10);
+        console.log(goal.updatedAt.slice(0,10));
         if(date===updateDate)
             return (goalBody);
    }
