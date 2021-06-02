@@ -666,7 +666,7 @@ router.post('/discover-page', async (req,res,next)=>{
                 console.log(err);
             })
     }
-    console.log(result_array);
+    //console.log(result_array);
     res.send(result_array);
 });
 
@@ -711,7 +711,7 @@ router.post('/search-page', async (req,res,next)=>{
     )
       .lean()
       .then((doc)=>{
-        result_array.push(doc);
+        result_array = doc;
       })
       .catch((err) => {
         console.log(err);
@@ -719,13 +719,14 @@ router.post('/search-page', async (req,res,next)=>{
 
   
   for (var i = 0; i < result_array.length; i++){
-    var current_goal = result_array[i]
-    var followed = followed_array.includes(current_goal["_id"]);
-    var liked = liked_array.includes(current_goal["_id"]);
-    current_goal['followed'] = followed;
-    current_goal['liked'] = liked;
+    var current_goal = await result_array[i]
+    var followed = await followed_array.includes(current_goal["_id"]);
+    var liked = await liked_array.includes(current_goal["_id"]);
+    current_goal['followed'] = await followed;
+    current_goal['liked'] = await liked;
+    result_array[i] = await current_goal;
   }
-  console.log(result_array);
+  //console.log(result_array);
   res.send(result_array);
 });
 
