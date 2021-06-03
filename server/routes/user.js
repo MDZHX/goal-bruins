@@ -63,9 +63,10 @@ router.post('/login', async (req, res) => {
     Tested------------------------Yes!
     */
     const { username, password } = req.body
-    await User.findOne({username: `${username}`}, (err, user) =>{
+    try{
+    await User.findOne({username: `${username}`}, async (err, user) =>{
         if(user === null){
-            res.status(403).json({
+            await res.status(403).json({
                 status:403,
                 message: 'Wrong username'
             })
@@ -88,7 +89,13 @@ router.post('/login', async (req, res) => {
             status:403,
             message: 'Wrong password'
         })
-    })
+    })}
+    catch{
+      res.status(403).json({
+        status:403,
+        message: 'Some error in database'
+      })
+    }
 })
 
 
