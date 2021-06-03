@@ -12,7 +12,7 @@ function Button(props) {
 
 function MyGoalOptionBar(props) {
   const [add, setAdd] = useState(false);
-  const [addContent, setAddContent]=useState(["","",""]);
+  const [addContent, setAddContent] = useState(["","",""]);
   //f(props.data.length>0)
       //console.log("data",props.data[0].props["name"][0]);
 
@@ -45,7 +45,7 @@ function MyGoalOptionBar(props) {
   }
 
   function showArchived() {
-    if(props.data.length==0){
+    if(props.data.length===0){
       alert("Nothing created within 10 days/loaded!");
       return;
     }
@@ -57,7 +57,7 @@ function MyGoalOptionBar(props) {
   }
 
   function showToday() {
-    if(props.data.length==0){
+    if(props.data.length===0){
       alert("Nothing created today/loaded!");
       return;
     }
