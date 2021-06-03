@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import Nav from '../../components/Nav/Nav';
 import Goal from '../../components/Goal/Goal'
-import CreateGoal from '../../components/CreateGoal/CreateGoal';
 import MyGoalOptionBar from '../../components/MyGoalsOptionBar/MyGoalOptionBar'
 // import MyGoal from '../../components/MyGoal/MyGoal'
 import './MyGoals.css'
