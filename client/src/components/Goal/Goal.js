@@ -6,15 +6,16 @@ import Button from '../Button/Button';
 import "./Goal.css";
 
 function LikeButton(props) {
-  // TODO: Fix icon issue
-  const icon = props.liked ? "fas fa-heart" : "far fa-heart";
+  const icon = "fas fa-heart";
   const text = props.liked ? "Unlike" : "Like";
 
   return (
     <Button onClick={props.toggleLike}>
       <div className="like-button-container">
-        <i className={icon}></i>
-        <span className="like-button-text">{props.likes}</span>
+        <div className="like-button-display">
+          <span className="like-button-text">{props.likes}</span>
+          <i className={icon}></i>
+        </div>
         <span className="like-button-text">{text}</span>
       </div>
     </Button>
@@ -22,8 +23,7 @@ function LikeButton(props) {
 }
 
 function FollowButton(props) {
-  // TODO: Fix icon issue
-  const icon = props.followed ? "fas fa-plus-square" : "far fa-plus-square";
+  const icon = "fas fa-plus-square";
   const text = props.followed ? "Unfollow" : "Follow";
 
   return (
