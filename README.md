@@ -58,3 +58,4 @@ To close the app, you can enter CTRL + C in both terminals or simply close the t
 
 * Due to performance issues, the app might crash upon frequent user input (clicking) in a short period of time.
 * Creating goals only works when the filter is set to "All".
+* The filtering results by creation time might be inaccurate in certain situations, as there are currently problems coordinating local time with server time.
