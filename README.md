@@ -1,9 +1,15 @@
 # Goal Bruins
+
 Our team implemented an interactive goal planner called Goal-Bruins for users to create, follow, and archive their own personal goals. The application also provides social features such as following/unfollowing and liking/unliking goals created by other users on the platform. 
+
 
 To provide users with the most relevant and updated information, our app can push the most popular goals on the platform to the user based on likes and follows, and also rank the goals based on creation time/alphabetical order.
 
-Given the current remote learning environment, students may find it difficult to work productively and complete personal goals on time. Our app is designed to allow users to keep track of their own personal and academic goals while socializing with others. It also provides a positive sharing platform where all Bruins can join together and encourage each other to overcome procrastination and complete their goals!
+
+Given the current remote learning environment, students may find it difficult to work productively and complete personal goals on time. Our app is designed to allow users to keep track of their own personal and academic goals while socializing with others.
+
+
+It also provides a positive sharing platform where all Bruins can join together and encourage each other to overcome procrastination and complete their goals!
 
 
 <h2> To run the app on your computer, do the following steps: </h2>
