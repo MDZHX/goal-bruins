@@ -9,7 +9,7 @@ To provide users with the most relevant and updated information, our app can pus
 Given the current remote learning environment, students may find it difficult to work productively and complete personal goals on time. Our app is designed to allow users to keep track of their own personal and academic goals while socializing with others.
 
 
-It also provides a positive sharing platform where all Bruins can join together and encourage each other to overcome procrastination and complete their goals!
+Goal-Bruins provides a positive sharing platform where all Bruins can join together and encourage each other to overcome procrastination and complete their goals!
 
 
 <h2> To run the app on your computer, do the following steps: </h2>
