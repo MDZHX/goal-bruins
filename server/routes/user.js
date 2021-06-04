@@ -647,7 +647,7 @@ router.post('/discover-page', async (req,res,next)=>{
       
     await Goal.find({_id: {$nin:follow_ids.concat(history_ids)}})
         .sort([['discover_rank',-1]])
-        .limit(20).exec()
+        .limit(4).exec()
         .then(result => {
             goal_array = result;
         })
