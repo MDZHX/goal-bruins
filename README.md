@@ -59,9 +59,9 @@ A new browser window will open automatically.
 
 To close the app, you can enter CTRL + C in both terminals or simply close the two terminals.
 
-## Known Problems
+## Known Issues
 
-* Due to performance issues, the app might exhibit unexpected behavior upon frequent user interactions in a short period of time.
-* Creating goals only works when the filter is set to "All".
-* The filtering results by creation time might be inaccurate in certain situations, as there are currently problems coordinating local time with server time.
+* Due to performance issues, the app might exhibit unexpected behavior upon very frequent user interactions in a short period of time.
+* The "Add Goals" button only works when the filter is set to "All".
+* The filtering results for creation time might be inaccurate in certain situations, as there may be problems when coordinating local time with server time.
 
