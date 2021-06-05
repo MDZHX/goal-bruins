@@ -14,6 +14,11 @@ Given the current remote learning environment, students may find it difficult to
 Goal Bruins provides a positive sharing platform where all Bruins can join together and encourage each other to overcome procrastination and complete their goals!
 
 
+## Video Demo
+
+https://drive.google.com/drive/folders/1AhRhbEzXO7q72vJUzzGmFsXZDjlZBzvD?usp=sharing
+
+
 ## How to Run this App
 
 Navigate to the directory you want to save our package in the command line and download the code by entering
@@ -59,3 +64,4 @@ To close the app, you can enter CTRL + C in both terminals or simply close the t
 * Due to performance issues, the app might exhibit unexpected behavior upon frequent user interactions in a short period of time.
 * Creating goals only works when the filter is set to "All".
 * The filtering results by creation time might be inaccurate in certain situations, as there are currently problems coordinating local time with server time.
+
